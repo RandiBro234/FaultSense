@@ -1,0 +1,20 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Env
+.env
+
+# MLflow
+mlruns/
+mlflow.db
+
+# OS
+.DS_Store
+
+# Notebook checkpoint
+.ipynb_checkpoints/
+
+# Models (opsional, kalau mau kecilin repo)
+# models/*.pkl
