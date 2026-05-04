@@ -1,48 +1,20 @@
-# =========================
 # Backend API
-# =========================
 fastapi==0.110.0
 uvicorn==0.29.0
 
-# =========================
 # Machine Learning
-# =========================
 scikit-learn==1.4.2
-pandas==2.2.2
 numpy==1.26.4
 
-# =========================
-# Imbalance Handling
-# =========================
-imbalanced-learn==0.12.2
-
-# =========================
-# Hyperparameter Tuning
-# =========================
-optuna==3.6.1
-
-# =========================
 # Database
-# =========================
 sqlalchemy==2.0.30
 psycopg2-binary==2.9.9
 
-# =========================
 # Environment
-# =========================
 python-dotenv==1.0.1
 
-# =========================
-# Serialization (optional but safe)
-# =========================
+# Serialization
 joblib==1.4.2
 
-# =========================
-# MLflow (opsional tapi kamu pakai)
-# =========================
-mlflow==2.12.1
-
-# =========================
 # Validation
-# =========================
 pydantic==2.7.1
