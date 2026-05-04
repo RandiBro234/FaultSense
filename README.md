@@ -8,7 +8,7 @@ Stack: FastAPI · scikit-learn · PostgreSQL · Docker Compose.
 
 ## Arsitektur singkat
 
-1. **Binary classifier** memprediksi probabilitas mesin akan gagal. Threshold dipilih lewat tuning di validation split (bukan test set).
+1. **Binary classifier** memprediksi probabilitas mesin akan gagal. Threshold dipilih lewat tuning Optuna + sweep threshold (lihat `notebook/training.ipynb`).
 2. Jika probabilitas ≥ threshold, **multiclass classifier** menentukan jenis kegagalan: TWF, HDF, PWF, OSF, atau RNF — sebatas kelas yang dapat dipelajari model dari data training.
 3. Setiap permintaan prediksi dicatat ke PostgreSQL untuk endpoint `/history` dan `/analytics`.
 
@@ -122,8 +122,7 @@ Notebook menghasilkan artefak ke folder `models/`:
 - `model_multiclass_rf.pkl` — RandomForest multiclass (jenis failure).
 - `scaler.pkl` — `StandardScaler` untuk fitur numerik.
 - `ohe_columns.pkl` — daftar kolom hasil one-hot encoding `Type`.
-- `label_map.pkl` — pemetaan label numerik multiclass ke nama failure type.
-- `threshold.pkl` — threshold yang dipilih dari validation split.
+- `threshold.pkl` — threshold yang dipilih dari tuning.
 
 Tracking eksperimen menggunakan MLflow (SQLite store di `mlflow.db`). Untuk membuka UI:
 

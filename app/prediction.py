@@ -36,14 +36,12 @@ scaler           = _load_pickle("scaler.pkl")
 ohe_columns: List[str] = _load_pickle("ohe_columns.pkl")
 threshold: float = float(_load_pickle("threshold.pkl"))
 
-# Default label map (fallback bila artefak label_map.pkl belum tersedia,
-# misal model lama yang dilatih sebelum refactor notebook).
-_DEFAULT_LABEL_MAP: Dict[int, str] = {0: "TWF", 1: "HDF", 2: "PWF", 3: "OSF", 4: "RNF"}
-
-try:
-    label_map: Dict[int, str] = _load_pickle("label_map.pkl")
-except FileNotFoundError:
-    label_map = _DEFAULT_LABEL_MAP
+# Mapping kelas multiclass model → nama failure type, mengikuti urutan yang
+# dipakai notebook training (`label_map = {'TWF':0,'HDF':1,'PWF':2,'OSF':3,'RNF':4}`).
+# Kelas yang tidak benar-benar dipelajari oleh model (mis. RNF pada dataset saat
+# ini) tidak akan pernah muncul di output `predict_proba`, jadi entry di sini
+# hanya dipakai bila model memang menemukan kelas itu di training.
+label_map: Dict[int, str] = {0: "TWF", 1: "HDF", 2: "PWF", 3: "OSF", 4: "RNF"}
 
 # ============================================================
 # REKOMENDASI
