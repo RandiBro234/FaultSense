@@ -1,10 +1,12 @@
-# Backend API
+# Runtime API — dependencies untuk menjalankan FastAPI service
+# Dependencies untuk training notebook ada di requirements-dev.txt
 fastapi==0.110.0
 uvicorn==0.29.0
 
-# Machine Learning
+# Machine Learning (inference)
 scikit-learn==1.4.2
 numpy==1.26.4
+pandas==2.2.2
 
 # Database
 sqlalchemy==2.0.30
@@ -12,9 +14,6 @@ psycopg2-binary==2.9.9
 
 # Environment
 python-dotenv==1.0.1
-
-# Serialization
-joblib==1.4.2
 
 # Validation
 pydantic==2.7.1
