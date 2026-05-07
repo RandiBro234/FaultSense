@@ -15,15 +15,26 @@ FaultSense mengimplementasikan sistem prediksi dua tahap:
 Sistem ini dibangun untuk membantu maintenance engineer melakukan **predictive maintenance** dan mencegah downtime mesin yang tidak terduga.
 
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│ POST /predict   │ ──▶ │ Binary RF + thr  │ ──▶ │ Multiclass RF    │
-│ (sensor data)   │     │ Normal / Failure │     │ (jenis failure)  │
-└─────────────────┘     └──────────────────┘     └──────────────────┘
-                                  │                        │
-                                  ▼                        ▼
-                          ┌──────────────────────────────────────┐
-                          │ prediction_logs (PostgreSQL)         │
-                          └──────────────────────────────────────┘
+┌─────────────────┐     ┌──────────────────────┐
+│ POST /predict   │ ──▶ │   Binary RF + thr    │
+│ (sensor data)   │     │   Normal / Failure   │
+└─────────────────┘     └──────────────────────┘
+                                  │
+                    ┌─────────────┴──────────────┐
+                    │                            │
+                    ▼ Normal                     ▼ Failure
+           ┌───────────────┐           ┌──────────────────┐
+           │ Skip multiclass│          │  Multiclass RF   │
+           │ failure=null  │           │  TWF/HDF/PWF/    │
+           └───────┬───────┘           │  OSF/RNF         │
+                   │                   └────────┬─────────┘
+                   │                            │
+                   └────────────┬───────────────┘
+                                ▼
+                   ┌─────────────────────────┐
+                   │ prediction_logs         │
+                   │ (PostgreSQL)            │
+                   └─────────────────────────┘
 ```
 
 ---
