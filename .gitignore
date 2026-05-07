@@ -1,0 +1,36 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Test / lint cache
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# MLflow
+mlruns/
+mlflow.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE & Tools
+.idea/
+.vscode/
+.claude/
+
+# Notebook checkpoint
+.ipynb_checkpoints/
+
+# Models — uncomment kalau ingin mengeluarkan dari repo
+# models/*.pkl

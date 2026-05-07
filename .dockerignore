@@ -1,0 +1,38 @@
+# VCS
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+venv
+.venv
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Notebook & training artefacts (tidak diperlukan oleh runtime API)
+notebook/
+mlruns/
+mlflow.db
+outputs/
+data/
+
+# Editor / OS
+.idea
+.vscode
+.DS_Store
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Dokumen
+README.md
+*.md
+
+# Test
+tests/

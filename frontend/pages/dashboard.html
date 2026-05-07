@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediksi — FaultSense</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/layout.css">
+  <link rel="stylesheet" href="../styles/components.css">
+
+  <style>
+    /* Page-specific styles untuk dashboard */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .page-header {
+      grid-column: 1 / -1;
+      margin-bottom: var(--space-lg);
+    }
+
+    .breadcrumb {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .breadcrumb a {
+      color: var(--text-muted);
+      transition: color var(--transition-base);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent-blue);
+    }
+
+    .page-title {
+      font-size: var(--font-size-3xl);
+      margin-bottom: var(--space-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-tight);
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: var(--font-size-base);
+    }
+
+    /* Form Styles */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .label-unit {
+      font-weight: var(--font-weight-normal);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+    }
+
+    /* Result Card */
+    .result-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .result-card {
+      display: none;
+      animation: slideIn 0.4s ease;
+    }
+
+    .result-card.visible {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-status-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding-bottom: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-icon {
+      font-size: var(--font-size-4xl);
+    }
+
+    .result-status-text h3 {
+      font-size: var(--font-size-2xl);
+      margin-bottom: var(--space-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-tight);
+    }
+
+    .result-status-text p {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+
+    .result-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .meta-label {
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-xs);
+    }
+
+    .meta-value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-primary);
+    }
+
+    /* Probability Bar */
+    .prob-section {
+      margin-bottom: var(--space-lg);
+    }
+
+    .prob-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--space-sm);
+    }
+
+    .prob-label {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .prob-value {
+      font-family: var(--font-mono);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+    }
+
+    .prob-track {
+      background-color: var(--primary-bg);
+      border-radius: var(--radius-full);
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .prob-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.8s ease;
+      width: 0%;
+    }
+
+    /* Recommendation */
+    .recommendation-label {
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-sm);
+    }
+
+    .recommendation {
+      background-color: var(--primary-bg);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-relaxed);
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    /* Info Card */
+    .info-card-title {
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-md);
+    }
+
+    .failure-types-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .ft-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .ft-badge {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ft-desc {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      line-height: var(--line-height-normal);
+    }
+
+    .checked-at {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: var(--space-md);
+      text-align: right;
+    }
+
+    /* Error Message */
+    .error-msg {
+      background-color: var(--danger-bg);
+      color: var(--danger);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      margin-top: var(--space-md);
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .result-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar akan di-render oleh JavaScript -->
+
+  <div class="page-wrapper">
+    <div class="page-content">
+      <div class="dashboard-layout">
+
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="breadcrumb">
+            <a href="../index.html">Home</a> / Prediksi Mesin
+          </div>
+          <h1 class="page-title">Prediksi Kondisi Mesin</h1>
+          <p class="page-subtitle">
+            Masukkan data sensor mesin untuk mendapatkan hasil prediksi cascade classification.
+          </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Data Sensor Input</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Tipe Produk</label>
+              <select id="type" class="form-select">
+                <option value="L">L — Low Quality</option>
+                <option value="M">M — Medium Quality</option>
+                <option value="H">H — High Quality</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  Air Temperature <span class="label-unit">[K]</span>
+                </label>
+                <input type="number" id="air_temperature" class="form-input" value="298.1" step="0.1" min="0">
+                <div class="form-hint">Rentang normal: 295–305 K</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  Process Temperature <span class="label-unit">[K]</span>
+                </label>
+                <input type="number" id="process_temperature" class="form-input" value="308.6" step="0.1" min="0">
+                <div class="form-hint">Rentang normal: 306–314 K</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  Rotational Speed <span class="label-unit">[rpm]</span>
+                </label>
+                <input type="number" id="rotational_speed" class="form-input" value="1500" step="1" min="1">
+                <div class="form-hint">Rentang normal: 1168–2886 rpm</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  Torque <span class="label-unit">[Nm]</span>
+                </label>
+                <input type="number" id="torque" class="form-input" value="40.0" step="0.1" min="0">
+                <div class="form-hint">Rentang normal: 3.8–76.6 Nm</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                Tool Wear <span class="label-unit">[min]</span>
+              </label>
+              <input type="number" id="tool_wear" class="form-input" value="50" step="1" min="0">
+              <div class="form-hint">Rentang normal: 0–253 menit</div>
+            </div>
+
+            <button class="btn btn-primary" id="btnPredict" style="width: 100%; margin-top: var(--space-md);">
+              <span class="spinner hidden" id="spinner"></span>
+              <span id="btnText">Jalankan Prediksi</span>
+            </button>
+
+            <button class="btn btn-secondary" id="btnReset" style="width: 100%; margin-top: var(--space-sm);">
+              Reset ke Default
+            </button>
+
+            <div class="error-msg" id="errorMsg"></div>
+          </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="result-panel">
+          <!-- Result Card -->
+          <div class="card result-card" id="resultCard">
+            <div class="result-status-row">
+              <div class="result-icon" id="resultIcon">—</div>
+              <div class="result-status-text">
+                <h3 id="resultStatus">—</h3>
+                <p id="resultSubtitle">—</p>
+              </div>
+            </div>
+
+            <div class="result-meta">
+              <div class="meta-item">
+                <div class="meta-label">Failure Type</div>
+                <div class="meta-value" id="resultFailureType">—</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Probabilitas Failure</div>
+                <div class="meta-value" id="resultProbText">—</div>
+              </div>
+            </div>
+
+            <div class="prob-section">
+              <div class="prob-header">
+                <span class="prob-label">Tingkat Risiko Failure</span>
+                <span class="prob-value" id="probPct">—</span>
+              </div>
+              <div class="prob-track">
+                <div class="prob-fill" id="probFill"></div>
+              </div>
+            </div>
+
+            <div class="recommendation-label">Rekomendasi Tindakan</div>
+            <div class="recommendation" id="resultRecommendation">—</div>
+
+            <div class="checked-at" id="checkedAt">—</div>
+          </div>
+
+          <!-- Info Card -->
+          <div class="card">
+            <h3 class="info-card-title">Kode Failure Types</h3>
+            <div class="failure-types-list">
+              <div class="ft-item">
+                <span class="ft-badge">TWF</span>
+                <span class="ft-desc">Tool Wear Failure — Keausan alat potong melebihi batas.</span>
+              </div>
+              <div class="ft-item">
+                <span class="ft-badge">HDF</span>
+                <span class="ft-desc">Heat Dissipation Failure — Kegagalan sistem pendingin mesin.</span>
+              </div>
+              <div class="ft-item">
+                <span class="ft-badge">PWF</span>
+                <span class="ft-desc">Power Failure — Kegagalan suplai daya atau motor.</span>
+              </div>
+              <div class="ft-item">
+                <span class="ft-badge">OSF</span>
+                <span class="ft-desc">Overstrain Failure — Beban kerja mesin melebihi kapasitas.</span>
+              </div>
+              <div class="ft-item">
+                <span class="ft-badge">RNF</span>
+                <span class="ft-desc">Random Failure — Kegagalan acak tanpa pola spesifik.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer akan di-render oleh JavaScript -->
+
+  <!-- JavaScript Modules -->
+  <script type="module">
+    import { renderNavbarForPages } from '../components/navbar.js';
+    import { renderFooter } from '../components/footer.js';
+    import { API_BASE_URL, formatDateTime, getProbabilityColor } from '../scripts/main.js';
+
+    // Render navbar dan footer
+    renderNavbarForPages('predict');
+    renderFooter();
+
+    // Default values
+    const defaults = {
+      air_temperature: 298.1,
+      process_temperature: 308.6,
+      rotational_speed: 1500,
+      torque: 40.0,
+      tool_wear: 50
+    };
+
+    // Reset form
+    document.getElementById('btnReset').addEventListener('click', () => {
+      document.getElementById('type').value = 'L';
+      Object.keys(defaults).forEach(key => {
+        document.getElementById(key).value = defaults[key];
+      });
+      document.getElementById('resultCard').classList.remove('visible');
+      document.getElementById('errorMsg').style.display = 'none';
+    });
+
+    // Predict function
+    document.getElementById('btnPredict').addEventListener('click', async () => {
+      const btn = document.getElementById('btnPredict');
+      const spinner = document.getElementById('spinner');
+      const btnText = document.getElementById('btnText');
+      const errorMsg = document.getElementById('errorMsg');
+
+      // Collect input
+      const payload = {
+        type: document.getElementById('type').value,
+        air_temperature: parseFloat(document.getElementById('air_temperature').value),
+        process_temperature: parseFloat(document.getElementById('process_temperature').value),
+        rotational_speed: parseInt(document.getElementById('rotational_speed').value),
+        torque: parseFloat(document.getElementById('torque').value),
+        tool_wear: parseInt(document.getElementById('tool_wear').value)
+      };
+
+      // Validate (exclude 'type' from NaN check since it's a string)
+      const numericFields = ['air_temperature', 'process_temperature', 'rotational_speed', 'torque', 'tool_wear'];
+      const hasInvalidField = numericFields.some(field => isNaN(payload[field]));
+
+      if (hasInvalidField || !payload.type) {
+        errorMsg.textContent = 'Semua field harus diisi dengan nilai valid.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Loading state
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btnText.textContent = 'Memproses...';
+      errorMsg.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/predict`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.detail?.[0]?.msg || 'Terjadi kesalahan pada server.');
+        }
+
+        const data = await response.json();
+        renderResult(data);
+
+      } catch (error) {
+        errorMsg.textContent = '⚠️ ' + (error.message || 'Tidak dapat terhubung ke API.');
+        errorMsg.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btnText.textContent = 'Jalankan Prediksi';
+      }
+    });
+
+    // Render result
+    function renderResult(data) {
+      const card = document.getElementById('resultCard');
+      const isNormal = data.status === 'Normal';
+      const prob = data.probability_failure;
+      const probPct = Math.round(prob * 100);
+
+      // Status
+      document.getElementById('resultIcon').textContent = isNormal ? '✅' : '⚠️';
+      document.getElementById('resultStatus').textContent = isNormal ? 'Mesin Normal' : 'Terdeteksi Failure';
+      document.getElementById('resultStatus').style.color = isNormal ? 'var(--success)' : 'var(--danger)';
+      document.getElementById('resultSubtitle').textContent = isNormal
+        ? 'Tidak ada indikasi kegagalan'
+        : `Jenis: ${data.failure_type}`;
+
+      // Failure Type
+      if (data.failure_type) {
+        document.getElementById('resultFailureType').innerHTML =
+          `<span class="badge badge-danger">${data.failure_type}</span>`;
+      } else {
+        document.getElementById('resultFailureType').innerHTML =
+          `<span style="color:var(--text-muted)">—</span>`;
+      }
+
+      // Probability
+      document.getElementById('resultProbText').textContent = prob.toFixed(4);
+
+      // Probability bar
+      const fill = document.getElementById('probFill');
+      const color = getProbabilityColor(prob);
+      fill.style.backgroundColor = color;
+      document.getElementById('probPct').textContent = probPct + '%';
+      document.getElementById('probPct').style.color = color;
+
+      setTimeout(() => {
+        fill.style.width = probPct + '%';
+      }, 100);
+
+      // Recommendation
+      document.getElementById('resultRecommendation').textContent = data.recommendation;
+
+      // Timestamp
+      document.getElementById('checkedAt').textContent = `Diperiksa: ${formatDateTime(data.checked_at)}`;
+
+      // Show card
+      card.classList.add('visible');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

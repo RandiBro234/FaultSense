@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — FaultSense</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/layout.css">
+  <link rel="stylesheet" href="../styles/components.css">
+
+  <style>
+    /* Page-specific styles untuk analytics */
+    .page-header {
+      margin-bottom: var(--space-xl);
+    }
+
+    .breadcrumb {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .breadcrumb a {
+      color: var(--text-muted);
+      transition: color var(--transition-base);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent-blue);
+    }
+
+    .page-title {
+      font-size: var(--font-size-3xl);
+      margin-bottom: var(--space-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-tight);
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: var(--font-size-base);
+    }
+
+    /* Page Actions */
+    .page-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Last Checked */
+    .last-checked {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .last-checked-label {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+
+    .last-checked-value {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm);
+      color: var(--text-primary);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .stat-card {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .stat-card.total::before {
+      background-color: var(--accent-blue);
+    }
+
+    .stat-card.normal::before {
+      background-color: var(--success);
+    }
+
+    .stat-card.failure::before {
+      background-color: var(--danger);
+    }
+
+    .stat-card.rate::before {
+      background-color: var(--warning);
+    }
+
+    .stat-icon {
+      font-size: var(--font-size-2xl);
+      margin-bottom: var(--space-sm);
+    }
+
+    .stat-label {
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-xs);
+    }
+
+    .stat-value {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-3xl);
+      color: var(--text-primary);
+      line-height: 1;
+      font-weight: var(--font-weight-bold);
+    }
+
+    .stat-value.c-success {
+      color: var(--success);
+    }
+
+    .stat-value.c-danger {
+      color: var(--danger);
+    }
+
+    .stat-value.c-warning {
+      color: var(--warning);
+    }
+
+    .stat-sub {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+      margin-top: var(--space-xs);
+    }
+
+    /* Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .chart-card {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+    }
+
+    .chart-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .chart-header {
+      margin-bottom: var(--space-lg);
+    }
+
+    .chart-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .chart-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+
+    .chart-container {
+      position: relative;
+    }
+
+    /* Breakdown Table */
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--space-md);
+    }
+
+    .breakdown-table th {
+      text-align: left;
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--border);
+      background-color: var(--primary-bg);
+    }
+
+    .breakdown-table td {
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .breakdown-table tr:hover td {
+      background-color: var(--tertiary-bg);
+    }
+
+    .ft-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .ft-bar-track {
+      flex: 1;
+      height: 6px;
+      background-color: var(--primary-bg);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .ft-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.8s ease;
+    }
+
+    /* Model Performance */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .model-card {
+      background-color: var(--primary-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      text-align: center;
+    }
+
+    .model-metric {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-2xl);
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .model-label {
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid,
+      .model-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-card.full {
+        grid-column: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar akan di-render oleh JavaScript -->
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="breadcrumb">
+          <a href="../index.html">Home</a> / Analytics
+        </div>
+        <h1 class="page-title">Dashboard Analytics</h1>
+        <p class="page-subtitle">
+          Ringkasan statistik dan visualisasi seluruh histori prediksi mesin.
+        </p>
+      </div>
+
+      <!-- Page Actions -->
+      <div class="page-actions">
+        <button class="btn btn-primary" id="btnRefresh">
+          ↻ Refresh Data
+        </button>
+      </div>
+
+      <!-- Last Checked -->
+      <div class="last-checked">
+        <span class="last-checked-label">Pengecekan Terakhir</span>
+        <span class="last-checked-value" id="lastChecked">Memuat...</span>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card total">
+          <div class="stat-icon">📊</div>
+          <div class="stat-label">Total Prediksi</div>
+          <div class="stat-value" id="statTotal">—</div>
+          <div class="stat-sub">Seluruh riwayat</div>
+        </div>
+
+        <div class="stat-card normal">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Kondisi Normal</div>
+          <div class="stat-value c-success" id="statNormal">—</div>
+          <div class="stat-sub" id="statNormalPct">—</div>
+        </div>
+
+        <div class="stat-card failure">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-label">Failure Terdeteksi</div>
+          <div class="stat-value c-danger" id="statFailure">—</div>
+          <div class="stat-sub" id="statFailurePct">—</div>
+        </div>
+
+        <div class="stat-card rate">
+          <div class="stat-icon">📈</div>
+          <div class="stat-label">Failure Rate</div>
+          <div class="stat-value c-warning" id="statRate">—</div>
+          <div class="stat-sub">dari total prediksi</div>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="charts-grid">
+        <!-- Donut Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Distribusi Status Prediksi</div>
+            <div class="chart-subtitle">Normal vs Failure</div>
+          </div>
+          <div class="chart-container" style="height: 220px">
+            <canvas id="donutChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Distribusi per Failure Type</div>
+            <div class="chart-subtitle">Jumlah kasus per jenis kegagalan</div>
+          </div>
+          <div class="chart-container" style="height: 220px">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Breakdown Table -->
+        <div class="chart-card full">
+          <div class="chart-header">
+            <div class="chart-title">Detail Breakdown Failure Type</div>
+            <div class="chart-subtitle">Proporsi masing-masing jenis kegagalan terhadap total failure</div>
+          </div>
+          <div id="breakdownTable">Memuat...</div>
+        </div>
+      </div>
+
+      <!-- Model Performance -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Performa Model (Hasil Training)</div>
+          <div class="chart-subtitle">Metrik evaluasi dari notebook training — dataset AI4I 2020</div>
+        </div>
+        <div class="model-grid">
+          <div class="model-card">
+            <div class="model-metric">0.97</div>
+            <div class="model-label">ROC-AUC</div>
+          </div>
+          <div class="model-card">
+            <div class="model-metric">0.78</div>
+            <div class="model-label">Recall</div>
+          </div>
+          <div class="model-card">
+            <div class="model-metric">0.61</div>
+            <div class="model-label">F1-Score</div>
+          </div>
+          <div class="model-card">
+            <div class="model-metric">0.68</div>
+            <div class="model-label">F1-Macro Multi</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer akan di-render oleh JavaScript -->
+
+  <!-- JavaScript Modules -->
+  <script type="module">
+    import { renderNavbarForPages } from '../components/navbar.js';
+    import { renderFooter } from '../components/footer.js';
+    import { API_BASE_URL, formatDateTime } from '../scripts/main.js';
+
+    // Render navbar dan footer
+    renderNavbarForPages('analytics');
+    renderFooter();
+
+    // Failure type colors
+    const FT_COLORS = {
+      TWF: '#ef4444',
+      HDF: '#f97316',
+      PWF: '#3b82f6',
+      OSF: '#a855f7',
+      RNF: '#6b7280'
+    };
+
+    let donutChart, barChart;
+
+    // Load analytics on page load
+    loadAnalytics();
+
+    // Event listener
+    document.getElementById('btnRefresh').addEventListener('click', loadAnalytics);
+
+    // Load analytics function
+    async function loadAnalytics() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/analytics`);
+        const data = await response.json();
+        renderAnalytics(data);
+      } catch (error) {
+        console.error('Error loading analytics:', error);
+        document.getElementById('statTotal').textContent = 'Error';
+      }
+    }
+
+    // Render analytics function
+    function renderAnalytics(data) {
+      const total = data.total_predictions;
+      const normal = data.total_normal;
+      const failure = data.total_failure;
+
+      // Last checked
+      document.getElementById('lastChecked').textContent = formatDateTime(data.latest_checked_at);
+
+      // Stats
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statNormal').textContent = normal;
+      document.getElementById('statFailure').textContent = failure;
+      document.getElementById('statRate').textContent = data.failure_rate + '%';
+
+      document.getElementById('statNormalPct').textContent =
+        total > 0 ? ((normal / total) * 100).toFixed(1) + '% dari total' : '—';
+      document.getElementById('statFailurePct').textContent =
+        total > 0 ? ((failure / total) * 100).toFixed(1) + '% dari total' : '—';
+
+      // Donut Chart
+      if (donutChart) donutChart.destroy();
+      const donutCtx = document.getElementById('donutChart').getContext('2d');
+      donutChart = new Chart(donutCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Normal', 'Failure'],
+          datasets: [{
+            data: [normal, failure],
+            backgroundColor: ['#10b981', '#ef4444'],
+            borderWidth: 0,
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '68%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: { family: 'DM Sans', size: 12 },
+                padding: 16,
+                color: '#94a3b8'
+              }
+            }
+          }
+        }
+      });
+
+      // Bar Chart
+      const ftData = data.per_failure_type;
+      const ftLabels = Object.keys(ftData);
+      const ftValues = Object.values(ftData);
+      const ftColors = ftLabels.map(k => FT_COLORS[k] || '#6b7280');
+
+      if (barChart) barChart.destroy();
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: ftLabels,
+          datasets: [{
+            label: 'Jumlah Kasus',
+            data: ftValues,
+            backgroundColor: ftColors,
+            borderRadius: 6,
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                font: { family: 'DM Mono', size: 11 },
+                color: '#94a3b8'
+              },
+              grid: { color: '#334155' }
+            },
+            x: {
+              ticks: {
+                font: { family: 'DM Mono', size: 11 },
+                color: '#94a3b8'
+              },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+
+      // Breakdown Table
+      const maxVal = Math.max(...ftValues, 1);
+      const rows = ftLabels.map(ft => {
+        const val = ftData[ft];
+        const pct = failure > 0 ? ((val / failure) * 100).toFixed(1) : 0;
+        const color = FT_COLORS[ft] || '#6b7280';
+        const width = ((val / maxVal) * 100).toFixed(1);
+
+        return `
+          <tr>
+            <td><strong>${ft}</strong></td>
+            <td class="font-mono">${val}</td>
+            <td class="font-mono">${pct}%</td>
+            <td style="width: 40%">
+              <div class="ft-bar-wrap">
+                <div class="ft-bar-track">
+                  <div class="ft-bar-fill" style="width:${width}%;background-color:${color}"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('breakdownTable').innerHTML = `
+        <table class="breakdown-table">
+          <thead>
+            <tr>
+              <th>Failure Type</th>
+              <th>Jumlah Kasus</th>
+              <th>% dari Failure</th>
+              <th>Proporsi</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+  </script>
+</body>
+</html>
