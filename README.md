@@ -191,6 +191,7 @@ uvicorn app.main:app --reload
 - **Analytics**: http://localhost:8080/pages/analytics.html
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/health
+- **pgAdmin 4**: http://localhost:5050/browser
 
 ---
 
