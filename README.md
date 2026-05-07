@@ -1,6 +1,6 @@
 # FaultSense - Predictive Maintenance System
 
-![FaultSense Banner](./refrensi%20design/refrensi%20landing%20page.png)
+![FaultSense Banner](./refrensi%20design/landing%20page.png)
 
 **FaultSense** adalah sistem prediksi kerusakan mesin industri berbasis machine learning yang menggunakan **Cascade Classification** untuk mendeteksi kondisi mesin dan mengidentifikasi jenis kegagalan secara otomatis.
 
