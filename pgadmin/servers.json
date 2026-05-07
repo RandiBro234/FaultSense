@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "FaultSense DB",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "faultsense_db",
+      "Username": "faultsense_user",
+      "SSLMode": "prefer",
+      "PassFile": "/pgpass",
+      "Comment": "PostgreSQL container FaultSense — prediction_logs table"
+    }
+  }
+}

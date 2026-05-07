@@ -1,22 +1,25 @@
 services:
+ 
   postgres:
     image: postgres:15
     container_name: faultsense_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-faultsense_db}
-      POSTGRES_USER: ${POSTGRES_USER:-faultsense_user}
+      POSTGRES_DB:       ${POSTGRES_DB:-faultsense_db}
+      POSTGRES_USER:     ${POSTGRES_USER:-faultsense_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-faultsense_pass}
     ports:
-      - "5433:5432"
+      - "5433:5432"          # host:5433 → container:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-faultsense_user} -d ${POSTGRES_DB:-faultsense_db}"]
       interval: 5s
-      timeout: 5s
-      retries: 5
-
+      timeout:  5s
+      retries:  5
+    networks:
+      - faultsense_net
+ 
   api:
     build: .
     container_name: faultsense_api
@@ -25,16 +28,45 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      # Hostname `postgres` adalah service name di network ini.
       DATABASE_URL: ${DATABASE_URL:-postgresql://faultsense_user:faultsense_pass@postgres:5432/faultsense_db}
     ports:
       - "8000:8000"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status == 200 else 1)"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout:   5s
+      retries:   5
       start_period: 15s
-
+    networks:
+      - faultsense_net
+ 
+  # ──────────────────────────────────────────────────────────
+  # pgAdmin 4 — GUI untuk melihat & mengelola PostgreSQL
+  # Akses di browser: http://localhost:5050
+  # Login: admin@faultsense.com / admin123
+  # ──────────────────────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: faultsense_pgadmin
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL:    ${PGADMIN_EMAIL:-admin@faultsense.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: "False"   # mode desktop, tidak butuh login berulang
+    ports:
+      - "5050:80"              # akses via http://localhost:5050
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - faultsense_net
+ 
 volumes:
   postgres_data:
+  pgadmin_data:       # ← tambahan untuk simpan konfigurasi pgAdmin
+ 
+networks:
+  faultsense_net:
+    driver: bridge
