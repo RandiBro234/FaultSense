@@ -244,10 +244,10 @@ uvicorn app.main:app --reload
 ## 📸 Screenshots
 
 ### Landing Page
-![Landing Page](./refrensi%20design/refrensi%20landing%20page.png)
+![Landing Page](./refrensi%20design/landing%20page.png)
 
 ### Dashboard Prediksi
-![Dashboard](./refrensi%20design/refrensi%20dashboard.png)
+![Dashboard](./refrensi%20design/dashboard.png)
 
 ---
 
