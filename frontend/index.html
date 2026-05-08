@@ -10,12 +10,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
   <!-- CSS Files -->
   <link rel="stylesheet" href="styles/variables.css">
   <link rel="stylesheet" href="styles/global.css">
   <link rel="stylesheet" href="styles/layout.css">
   <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/sections.css">
   <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+  <link rel="stylesheet" href="styles/history.css">
+  <link rel="stylesheet" href="styles/analytics.css">
 </head>
 <body>
 
@@ -23,7 +30,7 @@
 
   <main>
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="home" class="hero">
       <div class="hero-content">
         <div class="hero-badge fade-up">
           <span class="live-dot"></span>
@@ -36,10 +43,10 @@
           FaultSense menggunakan machine learning cascade — mendeteksi apakah mesin akan gagal, lalu mengidentifikasi jenis kegagalannya secara otomatis.
         </p>
         <div class="hero-actions fade-up delay-3">
-          <a href="pages/dashboard.html" class="btn btn-primary btn-lg">
+          <a href="#predict" class="btn btn-primary btn-lg">
             Mulai Prediksi
           </a>
-          <a href="pages/analytics.html" class="btn btn-secondary btn-lg">
+          <a href="#analytics" class="btn btn-secondary btn-lg">
             Lihat Dashboard
           </a>
         </div>
@@ -124,47 +131,350 @@
       </div>
     </section>
 
-    <!-- Pages Section -->
-    <section class="pages">
-      <div class="section-label">Navigasi</div>
-      <h2 class="section-title">Eksplorasi Dashboard</h2>
-      <div class="pages-grid">
-        <a href="pages/dashboard.html" class="page-card">
-          <div class="page-card-thumb thumb-predict"></div>
-          <div class="page-card-body">
-            <div class="page-card-title">
-              Prediksi Mesin
-              <span class="page-card-arrow">→</span>
+    <!-- Predict Section -->
+    <section id="predict" class="section-predict">
+      <div class="section-inner">
+        <div class="section-label">Prediksi</div>
+        <h2 class="section-title">Prediksi Kondisi Mesin</h2>
+        <p class="section-subtitle">
+          Masukkan data sensor mesin untuk mendapatkan hasil prediksi cascade classification.
+        </p>
+
+        <div class="dashboard-layout">
+          <!-- Form Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Data Sensor Input</h2>
             </div>
-            <div class="page-card-desc">
-              Input data sensor dan dapatkan hasil prediksi kondisi mesin secara instan.
+
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Tipe Produk</label>
+                <select id="type" class="form-select">
+                  <option value="L">L — Low Quality</option>
+                  <option value="M">M — Medium Quality</option>
+                  <option value="H">H — High Quality</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">
+                    Air Temperature <span class="label-unit">[K]</span>
+                  </label>
+                  <input type="number" id="air_temperature" class="form-input" value="298.1" step="0.1" min="0">
+                  <div class="form-hint">Rentang normal: 295–305 K</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    Process Temperature <span class="label-unit">[K]</span>
+                  </label>
+                  <input type="number" id="process_temperature" class="form-input" value="308.6" step="0.1" min="0">
+                  <div class="form-hint">Rentang normal: 306–314 K</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">
+                    Rotational Speed <span class="label-unit">[rpm]</span>
+                  </label>
+                  <input type="number" id="rotational_speed" class="form-input" value="1500" step="1" min="1">
+                  <div class="form-hint">Rentang normal: 1168–2886 rpm</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    Torque <span class="label-unit">[Nm]</span>
+                  </label>
+                  <input type="number" id="torque" class="form-input" value="40.0" step="0.1" min="0">
+                  <div class="form-hint">Rentang normal: 3.8–76.6 Nm</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  Tool Wear <span class="label-unit">[min]</span>
+                </label>
+                <input type="number" id="tool_wear" class="form-input" value="50" step="1" min="0">
+                <div class="form-hint">Rentang normal: 0–253 menit</div>
+              </div>
+
+              <button class="btn btn-primary" id="btnPredict" style="width: 100%; margin-top: var(--space-md);">
+                <span class="spinner hidden" id="spinner"></span>
+                <span id="btnText">Jalankan Prediksi</span>
+              </button>
+
+              <button class="btn btn-secondary" id="btnReset" style="width: 100%; margin-top: var(--space-sm);">
+                Reset ke Default
+              </button>
+
+              <div class="error-msg" id="errorMsg"></div>
             </div>
           </div>
-        </a>
-        <a href="pages/history.html" class="page-card">
-          <div class="page-card-thumb thumb-history"></div>
-          <div class="page-card-body">
-            <div class="page-card-title">
-              Riwayat Prediksi
-              <span class="page-card-arrow">→</span>
+
+          <!-- Result Panel -->
+          <div class="result-panel">
+            <!-- Result Card -->
+            <div class="card result-card" id="resultCard">
+              <div class="result-status-row">
+                <div class="result-status-text">
+                  <h3 id="resultStatus">—</h3>
+                  <p id="resultSubtitle">—</p>
+                </div>
+              </div>
+
+              <div class="result-meta">
+                <div class="meta-item">
+                  <div class="meta-label">Failure Type</div>
+                  <div class="meta-value" id="resultFailureType">—</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">Probabilitas Failure</div>
+                  <div class="meta-value" id="resultProbText">—</div>
+                </div>
+              </div>
+
+              <div class="prob-section">
+                <div class="prob-header">
+                  <span class="prob-label">Tingkat Risiko Failure</span>
+                  <span class="prob-value" id="probPct">—</span>
+                </div>
+                <div class="prob-track">
+                  <div class="prob-fill" id="probFill2"></div>
+                </div>
+              </div>
+
+              <div class="recommendation-label">Rekomendasi Tindakan</div>
+              <div class="recommendation" id="resultRecommendation">—</div>
+
+              <div class="checked-at" id="checkedAt">—</div>
             </div>
-            <div class="page-card-desc">
-              Lihat semua riwayat prediksi dengan filter berdasarkan status dan jenis failure.
+
+            <!-- Info Card -->
+            <div class="card">
+              <h3 class="info-card-title">Kode Failure Types</h3>
+              <div class="failure-types-list">
+                <div class="ft-item">
+                  <span class="ft-badge">TWF</span>
+                  <span class="ft-desc">Tool Wear Failure — Keausan alat potong melebihi batas.</span>
+                </div>
+                <div class="ft-item">
+                  <span class="ft-badge">HDF</span>
+                  <span class="ft-desc">Heat Dissipation Failure — Kegagalan sistem pendingin mesin.</span>
+                </div>
+                <div class="ft-item">
+                  <span class="ft-badge">PWF</span>
+                  <span class="ft-desc">Power Failure — Kegagalan suplai daya atau motor.</span>
+                </div>
+                <div class="ft-item">
+                  <span class="ft-badge">OSF</span>
+                  <span class="ft-desc">Overstrain Failure — Beban kerja mesin melebihi kapasitas.</span>
+                </div>
+                <div class="ft-item">
+                  <span class="ft-badge">RNF</span>
+                  <span class="ft-desc">Random Failure — Kegagalan acak tanpa pola spesifik.</span>
+                </div>
+              </div>
             </div>
           </div>
-        </a>
-        <a href="pages/analytics.html" class="page-card">
-          <div class="page-card-thumb thumb-analytics"></div>
-          <div class="page-card-body">
-            <div class="page-card-title">
-              Analytics
-              <span class="page-card-arrow">→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="history" class="section-history">
+      <div class="section-inner">
+        <div class="section-label">Riwayat</div>
+        <h2 class="section-title">Riwayat Prediksi</h2>
+        <p class="section-subtitle">
+          Seluruh riwayat pengecekan kondisi mesin yang tersimpan di database.
+        </p>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Ditampilkan</div>
+            <div class="stat-value" id="statShown">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Normal</div>
+            <div class="stat-value success" id="statNormal">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Failure</div>
+            <div class="stat-value danger" id="statFailure">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Failure Rate</div>
+            <div class="stat-value" id="statRate">—</div>
+          </div>
+        </div>
+
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <label class="filter-label">Status</label>
+            <select id="filterStatus" class="form-select">
+              <option value="">Semua</option>
+              <option value="Normal">Normal</option>
+              <option value="Failure">Failure</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Failure Type</label>
+            <select id="filterType" class="form-select">
+              <option value="">Semua</option>
+              <option value="TWF">TWF</option>
+              <option value="HDF">HDF</option>
+              <option value="PWF">PWF</option>
+              <option value="OSF">OSF</option>
+              <option value="RNF">RNF</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Limit</label>
+            <select id="filterLimit" class="form-select">
+              <option value="20">20</option>
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" id="btnFilter">
+            Terapkan Filter
+          </button>
+
+          <button class="btn btn-secondary" id="btnResetFilter">
+            Reset
+          </button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+          <div class="table-header">
+            <h2 class="table-title">Data Riwayat</h2>
+            <span class="table-count" id="tableCount">—</span>
+          </div>
+          <div id="tableBody">
+            <div class="loading-state">Memuat data...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analytics" class="section-analytics">
+      <div class="section-inner">
+        <div class="section-label">Analytics</div>
+        <h2 class="section-title">Dashboard Analytics</h2>
+        <p class="section-subtitle">
+          Ringkasan statistik dan visualisasi seluruh histori prediksi mesin.
+        </p>
+
+        <!-- Page Actions -->
+        <div class="page-actions">
+          <button class="btn btn-primary" id="btnRefresh">
+            ↻ Refresh Data
+          </button>
+        </div>
+
+        <!-- Last Checked -->
+        <div class="last-checked">
+          <span class="last-checked-label">Pengecekan Terakhir</span>
+          <span class="last-checked-value" id="lastChecked">Memuat...</span>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card total">
+            <div class="stat-label">Total Prediksi</div>
+            <div class="stat-value" id="statTotalAnalytics">—</div>
+            <div class="stat-sub">Seluruh riwayat</div>
+          </div>
+
+          <div class="stat-card normal">
+            <div class="stat-label">Kondisi Normal</div>
+            <div class="stat-value c-success" id="statNormalAnalytics">—</div>
+            <div class="stat-sub" id="statNormalPct">—</div>
+          </div>
+
+          <div class="stat-card failure">
+            <div class="stat-label">Failure Terdeteksi</div>
+            <div class="stat-value c-danger" id="statFailureAnalytics">—</div>
+            <div class="stat-sub" id="statFailurePct">—</div>
+          </div>
+
+          <div class="stat-card rate">
+            <div class="stat-label">Failure Rate</div>
+            <div class="stat-value c-warning" id="statRateAnalytics">—</div>
+            <div class="stat-sub">dari total prediksi</div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+          <!-- Donut Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Distribusi Status Prediksi</div>
+              <div class="chart-subtitle">Normal vs Failure</div>
             </div>
-            <div class="page-card-desc">
-              Dashboard statistik lengkap: failure rate, distribusi per jenis, dan tren waktu.
+            <div class="chart-container" style="height: 220px">
+              <canvas id="donutChart"></canvas>
             </div>
           </div>
-        </a>
+
+          <!-- Bar Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Distribusi per Failure Type</div>
+              <div class="chart-subtitle">Jumlah kasus per jenis kegagalan</div>
+            </div>
+            <div class="chart-container" style="height: 220px">
+              <canvas id="barChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Breakdown Table -->
+          <div class="chart-card full">
+            <div class="chart-header">
+              <div class="chart-title">Detail Breakdown Failure Type</div>
+              <div class="chart-subtitle">Proporsi masing-masing jenis kegagalan terhadap total failure</div>
+            </div>
+            <div id="breakdownTable">Memuat...</div>
+          </div>
+        </div>
+
+        <!-- Model Performance -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Performa Model (Hasil Training)</div>
+            <div class="chart-subtitle">Metrik evaluasi dari notebook training — dataset AI4I 2020</div>
+          </div>
+          <div class="model-grid">
+            <div class="model-card">
+              <div class="model-metric">0.97</div>
+              <div class="model-label">ROC-AUC</div>
+            </div>
+            <div class="model-card">
+              <div class="model-metric">0.78</div>
+              <div class="model-label">Recall</div>
+            </div>
+            <div class="model-card">
+              <div class="model-metric">0.61</div>
+              <div class="model-label">F1-Score</div>
+            </div>
+            <div class="model-card">
+              <div class="model-metric">0.68</div>
+              <div class="model-label">F1-Macro Multi</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -172,6 +482,6 @@
   <!-- Footer akan di-render oleh JavaScript -->
 
   <!-- JavaScript Modules -->
-  <script type="module" src="scripts/home.js"></script>
+  <script type="module" src="scripts/index.js"></script>
 </body>
 </html>

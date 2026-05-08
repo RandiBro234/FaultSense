@@ -19,7 +19,7 @@ export function renderNavbar(activePage = 'home') {
     <nav class="navbar">
       <div class="navbar-container">
         <!-- Logo -->
-        <a href="index.html" class="navbar-logo">
+        <a href="#home" class="navbar-logo">
           <img src="images/logopens.png" alt="PENS Logo" class="navbar-logo-img">
           <span class="navbar-logo-text">
             <span class="navbar-logo-dot"></span>
@@ -29,13 +29,13 @@ export function renderNavbar(activePage = 'home') {
 
         <!-- Menu Links -->
         <div class="navbar-menu">
-          <a href="pages/dashboard.html" class="navbar-link ${activePage === 'predict' ? 'active' : ''}">
+          <a href="#predict" class="navbar-link ${activePage === 'predict' ? 'active' : ''}">
             Predict
           </a>
-          <a href="pages/history.html" class="navbar-link ${activePage === 'history' ? 'active' : ''}">
+          <a href="#history" class="navbar-link ${activePage === 'history' ? 'active' : ''}">
             History
           </a>
-          <a href="pages/analytics.html" class="navbar-link ${activePage === 'analytics' ? 'active' : ''}">
+          <a href="#analytics" class="navbar-link ${activePage === 'analytics' ? 'active' : ''}">
             Analytics
           </a>
           <a href="http://localhost:8000/docs" target="_blank" class="btn btn-primary btn-sm">
@@ -48,6 +48,26 @@ export function renderNavbar(activePage = 'home') {
 
   // Insert navbar di awal body
   document.body.insertAdjacentHTML('afterbegin', navbarHTML);
+
+  // Add smooth scroll behavior with easing
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
+
+      if (target) {
+        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = targetPosition - navbarHeight - 20;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
 }
 
 /**
