@@ -1,0 +1,181 @@
+/* ==========================================
+   HISTORY PAGE STYLES
+   ==========================================
+
+   Styles khusus untuk halaman history/riwayat prediksi
+*/
+
+/* Page Header */
+.page-header {
+  margin-bottom: var(--space-xl);
+}
+
+.breadcrumb {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.breadcrumb a {
+  color: var(--text-muted);
+  transition: color var(--transition-base);
+}
+
+.breadcrumb a:hover {
+  color: var(--primary-blue);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-sm);
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-3xl);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-value.success {
+  color: var(--success);
+}
+
+.stat-value.danger {
+  color: var(--danger);
+}
+
+/* Filters Bar */
+.filters-bar {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 140px;
+}
+
+.filter-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-xs);
+}
+
+/* Table Header */
+.table-header {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border-blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-title {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-semibold);
+}
+
+.table-count {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Probability Cell */
+.prob-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.prob-mini-track {
+  width: 60px;
+  height: 4px;
+  background-color: var(--light-blue);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.prob-mini-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+/* Loading State */
+.loading-state {
+  padding: var(--space-3xl);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  /* Hide beberapa kolom di mobile */
+  .table thead th:nth-child(n+5),
+  .table tbody td:nth-child(n+5) {
+    display: none;
+  }
+}

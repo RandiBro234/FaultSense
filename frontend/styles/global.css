@@ -31,13 +31,32 @@ body {
   line-height: var(--line-height-normal);
   color: var(--text-secondary);
   background-color: var(--primary-bg);
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   min-height: 100vh;
   letter-spacing: var(--letter-spacing-normal);
+  position: relative;
+}
+
+/* Overlay untuk background agar tidak terlalu kuat */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(248, 250, 252, 0.85);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-primary);
+  font-family: var(--font-display);
   color: var(--text-primary);
   line-height: var(--line-height-tight);
   font-weight: var(--font-weight-bold);
