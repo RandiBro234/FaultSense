@@ -67,10 +67,20 @@ async function handlePredict() {
     tool_wear: parseInt(document.getElementById('tool_wear').value)
   };
 
+  // Validate
+  const numericFields = ['air_temperature', 'process_temperature', 'rotational_speed', 'torque', 'tool_wear'];
+  const hasInvalidField = numericFields.some(field => isNaN(payload[field]));
+
+  if (hasInvalidField || !payload.type) {
+    errorMsg.textContent = 'Semua field harus diisi dengan nilai valid.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
   btn.disabled = true;
   spinner.classList.remove('hidden');
   btnText.textContent = 'Memproses...';
-  errorMsg.textContent = '';
+  errorMsg.style.display = 'none';
 
   try {
     const response = await fetch(`${API_BASE_URL}/predict`, {
@@ -79,12 +89,18 @@ async function handlePredict() {
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) throw new Error('Gagal melakukan prediksi');
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail?.[0]?.msg || 'Gagal melakukan prediksi');
+    }
 
     const data = await response.json();
+    console.log('Prediction result:', data); // Debug log
     renderPredictionResult(data);
   } catch (error) {
+    console.error('Prediction error:', error); // Debug log
     errorMsg.textContent = 'Terjadi kesalahan: ' + error.message;
+    errorMsg.style.display = 'block';
   } finally {
     btn.disabled = false;
     spinner.classList.add('hidden');
@@ -97,6 +113,8 @@ function renderPredictionResult(data) {
   const isFailure = data.status === 'Failure';
 
   document.getElementById('resultStatus').textContent = data.status;
+  document.getElementById('resultStatus').style.color = isFailure ? 'var(--danger)' : 'var(--success)';
+
   document.getElementById('resultSubtitle').textContent = isFailure
     ? 'Mesin terdeteksi akan mengalami kegagalan'
     : 'Mesin dalam kondisi normal';
@@ -118,7 +136,7 @@ function renderPredictionResult(data) {
   document.getElementById('resultRecommendation').textContent = recommendation;
   document.getElementById('checkedAt').textContent = 'Prediksi dilakukan pada ' + formatDateTime(data.checked_at);
 
-  resultCard.classList.remove('hidden');
+  resultCard.classList.add('visible');
   resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -130,6 +148,7 @@ function resetForm() {
   document.getElementById('torque').value = '40.0';
   document.getElementById('tool_wear').value = '50';
   document.getElementById('errorMsg').textContent = '';
+  document.getElementById('resultCard').classList.remove('visible');
 }
 
 // ==========================================

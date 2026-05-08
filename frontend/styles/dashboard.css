@@ -30,7 +30,7 @@
 }
 
 .breadcrumb a:hover {
-  color: var(--primary-blue);
+  color: var(--primary-green);
 }
 
 .page-title {
@@ -68,12 +68,24 @@
 }
 
 .result-card {
-  display: none;
+  display: none !important;
   animation: slideIn 0.4s ease;
 }
 
 .result-card.visible {
-  display: block;
+  display: block !important;
+}
+
+/* Error Message */
+.error-msg {
+  display: none;
+  padding: var(--space-md);
+  background-color: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-md);
+  font-size: var(--font-size-sm);
 }
 
 @keyframes slideIn {
@@ -93,7 +105,7 @@
   gap: var(--space-md);
   padding-bottom: var(--space-lg);
   margin-bottom: var(--space-lg);
-  border-bottom: 1px solid var(--border-blue);
+  border-bottom: 1px solid var(--border-green);
 }
 
 .result-status-text h3 {
@@ -156,7 +168,7 @@
 }
 
 .prob-track {
-  background-color: var(--light-blue);
+  background-color: var(--light-green);
   border-radius: var(--radius-full);
   height: 8px;
   overflow: hidden;
@@ -180,12 +192,12 @@
 }
 
 .recommendation {
-  background-color: var(--light-blue);
+  background-color: var(--light-green);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
-  border-left: 3px solid var(--primary-blue);
+  border-left: 3px solid var(--primary-green);
 }
 
 /* Info Card */
@@ -216,9 +228,9 @@
   font-weight: var(--font-weight-semibold);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
-  background-color: var(--light-blue);
-  color: var(--primary-blue);
-  border: 1px solid var(--border-blue);
+  background-color: var(--light-green);
+  color: var(--primary-green);
+  border: 1px solid var(--border-green);
   white-space: nowrap;
   flex-shrink: 0;
 }

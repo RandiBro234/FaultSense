@@ -13,25 +13,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 :root {
-  /* ===== PRIMARY COLORS - Blue-White Theme (Bold & Vibrant) ===== */
-  --primary-blue: #2563EB;      /* Primary Blue - focal point kuat */
-  --dark-blue: #1E40AF;         /* Dark Blue - untuk hover states */
-  --light-blue: #DBEAFE;        /* Light Blue - background kontainer (lebih bold) */
-  --soft-blue-gray: #F1F5F9;    /* Soft Blue Gray - background aplikasi (lebih kontras) */
-  --border-blue: #93C5FD;       /* Border Blue - garis tepi lebih terlihat */
+  /* ===== PRIMARY COLORS - Green-White Theme (Premium & Professional) ===== */
+  --primary-green: #10b981;     /* Primary Green - navbar, buttons, accents */
+  --dark-green: #047857;        /* Dark Green - hover states */
+  --light-green: #ECFDF5;       /* Light Green - section backgrounds */
+  --page-base: #F8FAFC;         /* Page Base - main background */
+  --border-accent: #A7F3D0;     /* Border/Accent - card borders */
 
-  --primary-bg: #F1F5F9;        /* Background utama aplikasi */
+  --primary-bg: #F8FAFC;        /* Background utama aplikasi */
   --secondary-bg: #FFFFFF;      /* Background card/panel (White - untuk pop-out) */
-  --tertiary-bg: #DBEAFE;       /* Background hover/active */
-  --section-bg: #DBEAFE;        /* Background untuk section terpisah */
+  --tertiary-bg: #ECFDF5;       /* Background hover/active */
+  --section-bg: #ECFDF5;        /* Background untuk section terpisah */
 
-  --accent-blue: #2563EB;       /* Warna aksen utama */
-  --accent-blue-hover: #1E40AF; /* Hover state */
-  --accent-blue-light: #3B82F6; /* Light variant */
+  --accent-green: #10b981;      /* Warna aksen utama */
+  --accent-green-hover: #047857; /* Hover state */
+  --accent-green-light: #34d399; /* Light variant */
 
   /* ===== TEXT COLORS ===== */
   --text-primary: #0F172A;      /* Navy gelap - keterbacaan tinggi */
-  --text-secondary: #334155;    /* Abu-abu biru untuk info tambahan (lebih gelap) */
+  --text-secondary: #475569;    /* Text secondary - descriptions/labels */
   --text-muted: #64748B;        /* Text muted (slate 500) */
 
   /* ===== STATUS COLORS ===== */
@@ -47,13 +47,14 @@
   --warning-bg: #FEF3C7;        /* Warning background (amber 100 - lebih terlihat) */
   --warning-light: #FDE68A;     /* Warning light (amber 200) */
 
-  --info: #2563EB;              /* Info (blue 600) */
-  --info-bg: #DBEAFE;           /* Info background (blue 100 - lebih terlihat) */
+  --info: #10b981;              /* Info (green 500) */
+  --info-bg: #ECFDF5;           /* Info background (green 50) */
 
   /* ===== BORDER & DIVIDER ===== */
-  --border: #93C5FD;            /* Border default (blue 300 - lebih terlihat) */
-  --border-light: #60A5FA;      /* Border light (blue 400 - lebih bold) */
-  --divider: #93C5FD;           /* Divider line */
+  --border: #A7F3D0;            /* Border default */
+  --border-green: #A7F3D0;      /* Border green - card and component borders */
+  --border-light: #6EE7B7;      /* Border light */
+  --divider: #A7F3D0;           /* Divider line */
 
   /* ===== SPACING ===== */
   --space-xs: 0.25rem;   /* 4px */
@@ -65,10 +66,9 @@
   --space-3xl: 4rem;     /* 64px */
 
   /* ===== TYPOGRAPHY ===== */
-  /* Primary Font - Inter for modern SaaS/AI dashboard feel */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  /* Poppins for headlines, section titles, and data display */
-  --font-display: 'Poppins', 'Inter', sans-serif;
+  /* Poppins for everything - premium and professional */
+  --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Poppins', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
   /* Font Sizes - Responsive scaling */
@@ -111,12 +111,12 @@
   --radius-xl: 1rem;       /* 16px */
   --radius-full: 9999px;   /* Rounded full */
 
-  /* ===== SHADOWS (dengan tint biru untuk depth) ===== */
-  --shadow-sm: 0 1px 3px 0 rgba(37, 99, 235, 0.1), 0 1px 2px 0 rgba(37, 99, 235, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(37, 99, 235, 0.1), 0 2px 4px -1px rgba(37, 99, 235, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -2px rgba(37, 99, 235, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(37, 99, 235, 0.1), 0 10px 10px -5px rgba(37, 99, 235, 0.04);
-  --shadow-blue: 0 0 0 3px rgba(37, 99, 235, 0.15); /* Focus ring */
+  /* ===== SHADOWS (dengan tint hijau untuk depth) ===== */
+  --shadow-sm: 0 1px 3px 0 rgba(16, 185, 129, 0.1), 0 1px 2px 0 rgba(16, 185, 129, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(16, 185, 129, 0.1), 0 4px 6px -2px rgba(16, 185, 129, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
+  --shadow-green: 0 0 0 3px rgba(16, 185, 129, 0.15); /* Focus ring */
 
   /* ===== TRANSITIONS ===== */
   --transition-fast: 150ms ease;

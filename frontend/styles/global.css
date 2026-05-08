@@ -39,27 +39,8 @@ body {
   line-height: var(--line-height-normal);
   color: var(--text-secondary);
   background-color: var(--primary-bg);
-  background-image: url('../images/background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   min-height: 100vh;
   letter-spacing: var(--letter-spacing-normal);
-  position: relative;
-}
-
-/* Overlay untuk background agar tidak terlalu kuat */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(248, 250, 252, 0.85);
-  z-index: -1;
-  pointer-events: none;
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -125,14 +106,14 @@ code, pre {
 }
 
 a {
-  color: var(--primary-blue);
+  color: var(--primary-green);
   text-decoration: none;
   transition: color var(--transition-base);
   position: relative;
 }
 
 a:hover {
-  color: var(--dark-blue);
+  color: var(--dark-green);
 }
 
 a:not(.btn):not(.navbar-link):not(.page-card)::after {
@@ -142,7 +123,7 @@ a:not(.btn):not(.navbar-link):not(.page-card)::after {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--primary-blue);
+  background-color: var(--primary-green);
   transition: width var(--transition-base);
 }
 
@@ -280,11 +261,11 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-blue);
+  background: var(--primary-green);
 }
 
 /* ===== SELECTION ===== */
 ::selection {
-  background-color: var(--primary-blue);
+  background-color: var(--primary-green);
   color: #FFFFFF;
 }

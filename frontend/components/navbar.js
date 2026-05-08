@@ -29,17 +29,20 @@ export function renderNavbar(activePage = 'home') {
 
         <!-- Menu Links -->
         <div class="navbar-menu">
+          <a href="#home" class="navbar-link ${activePage === 'home' ? 'active' : ''}">
+            Home
+          </a>
           <a href="#predict" class="navbar-link ${activePage === 'predict' ? 'active' : ''}">
-            Predict
+            Input Data
+          </a>
+          <a href="#predict" class="navbar-link ${activePage === 'predict' ? 'active' : ''}">
+            Live Prediction
           </a>
           <a href="#history" class="navbar-link ${activePage === 'history' ? 'active' : ''}">
             History
           </a>
           <a href="#analytics" class="navbar-link ${activePage === 'analytics' ? 'active' : ''}">
             Analytics
-          </a>
-          <a href="http://localhost:8000/docs" target="_blank" class="btn btn-primary btn-sm">
-            API Docs
           </a>
         </div>
       </div>

@@ -27,6 +27,7 @@ cp .env.example .env
 # Start semua services (API + PostgreSQL)
 docker compose up --build
 
+
 # Atau run di background
 docker compose up -d --build
 ```
