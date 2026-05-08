@@ -37,7 +37,7 @@
     }
 
     .breadcrumb a:hover {
-      color: var(--accent-blue);
+      color: var(--primary-blue);
     }
 
     .page-title {
@@ -62,7 +62,7 @@
     /* Last Checked */
     .last-checked {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-lg);
       padding: var(--space-md) var(--space-lg);
       margin-bottom: var(--space-lg);
@@ -92,11 +92,12 @@
 
     .stat-card {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
 
     .stat-card::before {
@@ -109,7 +110,7 @@
     }
 
     .stat-card.total::before {
-      background-color: var(--accent-blue);
+      background-color: var(--primary-blue);
     }
 
     .stat-card.normal::before {
@@ -122,11 +123,6 @@
 
     .stat-card.rate::before {
       background-color: var(--warning);
-    }
-
-    .stat-icon {
-      font-size: var(--font-size-2xl);
-      margin-bottom: var(--space-sm);
     }
 
     .stat-label {
@@ -174,9 +170,10 @@
 
     .chart-card {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
     }
 
     .chart-card.full {
@@ -215,17 +212,17 @@
       font-size: var(--font-size-xs);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       font-weight: var(--font-weight-semibold);
       padding: var(--space-sm) var(--space-md);
-      border-bottom: 1px solid var(--border);
-      background-color: var(--primary-bg);
+      border-bottom: 1px solid var(--border-blue);
+      background-color: var(--light-blue);
     }
 
     .breakdown-table td {
       padding: var(--space-sm) var(--space-md);
       font-size: var(--font-size-sm);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-blue);
     }
 
     .breakdown-table tr:last-child td {
@@ -233,7 +230,7 @@
     }
 
     .breakdown-table tr:hover td {
-      background-color: var(--tertiary-bg);
+      background-color: var(--light-blue);
     }
 
     .ft-bar-wrap {
@@ -245,7 +242,7 @@
     .ft-bar-track {
       flex: 1;
       height: 6px;
-      background-color: var(--primary-bg);
+      background-color: var(--light-blue);
       border-radius: var(--radius-full);
       overflow: hidden;
     }
@@ -265,8 +262,8 @@
     }
 
     .model-card {
-      background-color: var(--primary-bg);
-      border: 1px solid var(--border);
+      background-color: var(--light-blue);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-md);
       padding: var(--space-lg);
       text-align: center;
@@ -338,28 +335,24 @@
       <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-card total">
-          <div class="stat-icon">📊</div>
           <div class="stat-label">Total Prediksi</div>
           <div class="stat-value" id="statTotal">—</div>
           <div class="stat-sub">Seluruh riwayat</div>
         </div>
 
         <div class="stat-card normal">
-          <div class="stat-icon">✅</div>
           <div class="stat-label">Kondisi Normal</div>
           <div class="stat-value c-success" id="statNormal">—</div>
           <div class="stat-sub" id="statNormalPct">—</div>
         </div>
 
         <div class="stat-card failure">
-          <div class="stat-icon">⚠️</div>
           <div class="stat-label">Failure Terdeteksi</div>
           <div class="stat-value c-danger" id="statFailure">—</div>
           <div class="stat-sub" id="statFailurePct">—</div>
         </div>
 
         <div class="stat-card rate">
-          <div class="stat-icon">📈</div>
           <div class="stat-label">Failure Rate</div>
           <div class="stat-value c-warning" id="statRate">—</div>
           <div class="stat-sub">dari total prediksi</div>

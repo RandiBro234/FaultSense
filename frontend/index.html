@@ -34,13 +34,13 @@
       display: inline-flex;
       align-items: center;
       gap: var(--space-sm);
-      background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      background-color: var(--light-blue);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-full);
       padding: var(--space-xs) var(--space-md);
       font-size: var(--font-size-xs);
       font-weight: var(--font-weight-medium);
-      color: var(--text-muted);
+      color: var(--primary-blue);
       letter-spacing: 0.05em;
       text-transform: uppercase;
       margin-bottom: var(--space-lg);
@@ -85,7 +85,7 @@
 
     .status-card {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-xl);
       padding: var(--space-lg);
       box-shadow: var(--shadow-lg);
@@ -97,7 +97,7 @@
       align-items: center;
       margin-bottom: var(--space-md);
       padding-bottom: var(--space-md);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-blue);
     }
 
     .status-card-header h3 {
@@ -116,7 +116,7 @@
     }
 
     .sensor-item {
-      background-color: var(--primary-bg);
+      background-color: var(--light-blue);
       border-radius: var(--radius-md);
       padding: var(--space-sm);
     }
@@ -149,7 +149,7 @@
     }
 
     .probability-track {
-      background-color: var(--primary-bg);
+      background-color: var(--light-blue);
       border-radius: var(--radius-full);
       height: 6px;
       overflow: hidden;
@@ -172,7 +172,7 @@
 
     .stat-mini {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-md);
       padding: var(--space-md);
       flex: 1;
@@ -197,9 +197,9 @@
     /* Features Section */
     .features {
       padding: var(--space-3xl) var(--space-lg);
-      background-color: var(--secondary-bg);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      background-color: var(--light-blue);
+      border-top: 1px solid var(--border-blue);
+      border-bottom: 1px solid var(--border-blue);
     }
 
     .features-inner {
@@ -211,7 +211,7 @@
       font-size: var(--font-size-xs);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: var(--accent-blue);
+      color: var(--primary-blue);
       font-weight: var(--font-weight-semibold);
       margin-bottom: var(--space-md);
     }
@@ -234,21 +234,17 @@
 
     .feature-card {
       padding: var(--space-xl);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-lg);
-      background-color: var(--primary-bg);
+      background-color: var(--secondary-bg);
       transition: all var(--transition-base);
+      box-shadow: var(--shadow-sm);
     }
 
     .feature-card:hover {
-      border-color: var(--accent-blue);
+      border-color: var(--primary-blue);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
-    }
-
-    .feature-icon {
-      font-size: var(--font-size-3xl);
-      margin-bottom: var(--space-md);
     }
 
     .feature-title {
@@ -280,18 +276,19 @@
 
     .page-card {
       background-color: var(--secondary-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-blue);
       border-radius: var(--radius-xl);
       overflow: hidden;
       text-decoration: none;
       transition: all var(--transition-base);
       display: block;
+      box-shadow: var(--shadow-sm);
     }
 
     .page-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
-      border-color: var(--accent-blue);
+      border-color: var(--primary-blue);
     }
 
     .page-card-thumb {
@@ -299,7 +296,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3.5rem;
       position: relative;
       overflow: hidden;
     }
@@ -337,7 +333,7 @@
     }
 
     .page-card:hover .page-card-arrow {
-      color: var(--accent-blue);
+      color: var(--primary-blue);
     }
 
     .page-card-desc {
@@ -473,21 +469,18 @@
         <h2 class="section-title">Cascade Classification Pipeline</h2>
         <div class="features-grid">
           <div class="feature-card">
-            <div class="feature-icon">🔍</div>
             <div class="feature-title">Binary Detection</div>
             <div class="feature-desc">
               Model Random Forest pertama mendeteksi apakah mesin dalam kondisi Normal atau Failure berdasarkan data sensor real-time.
             </div>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">🏷️</div>
             <div class="feature-title">Failure Classification</div>
             <div class="feature-desc">
               Jika terdeteksi Failure, model kedua mengidentifikasi jenis kegagalan: TWF, HDF, PWF, OSF, atau RNF.
             </div>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">💡</div>
             <div class="feature-title">Smart Recommendation</div>
             <div class="feature-desc">
               Setiap prediksi disertai rekomendasi tindakan spesifik berdasarkan jenis kegagalan yang terdeteksi.
@@ -515,7 +508,7 @@
           </div>
         </a>
         <a href="pages/history.html" class="page-card">
-          <div class="page-card-thumb thumb-history">📋</div>
+          <div class="page-card-thumb thumb-history"></div>
           <div class="page-card-body">
             <div class="page-card-title">
               Riwayat Prediksi
@@ -527,7 +520,7 @@
           </div>
         </a>
         <a href="pages/analytics.html" class="page-card">
-          <div class="page-card-thumb thumb-analytics">📊</div>
+          <div class="page-card-thumb thumb-analytics"></div>
           <div class="page-card-body">
             <div class="page-card-title">
               Analytics

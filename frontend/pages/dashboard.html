@@ -42,7 +42,7 @@
     }
 
     .breadcrumb a:hover {
-      color: var(--accent-blue);
+      color: var(--primary-blue);
     }
 
     .page-title {
@@ -104,11 +104,7 @@
       gap: var(--space-md);
       padding-bottom: var(--space-lg);
       margin-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .result-icon {
-      font-size: var(--font-size-4xl);
+      border-bottom: 1px solid var(--border-blue);
     }
 
     .result-status-text h3 {
@@ -170,7 +166,7 @@
     }
 
     .prob-track {
-      background-color: var(--primary-bg);
+      background-color: var(--light-blue);
       border-radius: var(--radius-full);
       height: 8px;
       overflow: hidden;
@@ -194,12 +190,12 @@
     }
 
     .recommendation {
-      background-color: var(--primary-bg);
+      background-color: var(--light-blue);
       border-radius: var(--radius-md);
       padding: var(--space-md);
       font-size: var(--font-size-sm);
       line-height: var(--line-height-relaxed);
-      border-left: 3px solid var(--accent-blue);
+      border-left: 3px solid var(--primary-blue);
     }
 
     /* Info Card */
@@ -230,9 +226,9 @@
       font-weight: var(--font-weight-semibold);
       padding: var(--space-xs) var(--space-sm);
       border-radius: var(--radius-sm);
-      background-color: var(--primary-bg);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
+      background-color: var(--light-blue);
+      color: var(--primary-blue);
+      border: 1px solid var(--border-blue);
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -374,7 +370,6 @@
           <!-- Result Card -->
           <div class="card result-card" id="resultCard">
             <div class="result-status-row">
-              <div class="result-icon" id="resultIcon">—</div>
               <div class="result-status-text">
                 <h3 id="resultStatus">—</h3>
                 <p id="resultSubtitle">—</p>
@@ -520,7 +515,7 @@
         renderResult(data);
 
       } catch (error) {
-        errorMsg.textContent = '⚠️ ' + (error.message || 'Tidak dapat terhubung ke API.');
+        errorMsg.textContent = '⚠ ' + (error.message || 'Tidak dapat terhubung ke API.');
         errorMsg.style.display = 'block';
       } finally {
         btn.disabled = false;
@@ -537,7 +532,6 @@
       const probPct = Math.round(prob * 100);
 
       // Status
-      document.getElementById('resultIcon').textContent = isNormal ? '✅' : '⚠️';
       document.getElementById('resultStatus').textContent = isNormal ? 'Mesin Normal' : 'Terdeteksi Failure';
       document.getElementById('resultStatus').style.color = isNormal ? 'var(--success)' : 'var(--danger)';
       document.getElementById('resultSubtitle').textContent = isNormal

@@ -20,8 +20,11 @@ export function renderNavbar(activePage = 'home') {
       <div class="navbar-container">
         <!-- Logo -->
         <a href="index.html" class="navbar-logo">
-          <span class="navbar-logo-dot"></span>
-          FaultSense
+          <img src="images/logopens.webp" alt="PENS Logo" class="navbar-logo-img">
+          <span class="navbar-logo-text">
+            <span class="navbar-logo-dot"></span>
+            FaultSense
+          </span>
         </a>
 
         <!-- Menu Links -->
@@ -58,8 +61,11 @@ export function renderNavbarForPages(activePage) {
       <div class="navbar-container">
         <!-- Logo -->
         <a href="../index.html" class="navbar-logo">
-          <span class="navbar-logo-dot"></span>
-          FaultSense
+          <img src="../images/logopens.webp" alt="PENS Logo" class="navbar-logo-img">
+          <span class="navbar-logo-text">
+            <span class="navbar-logo-dot"></span>
+            FaultSense
+          </span>
         </a>
 
         <!-- Menu Links -->

@@ -1,5 +1,5 @@
 /* ==========================================
-   CSS VARIABLES - Dark Blue Theme
+   CSS VARIABLES - Blue-White Theme
    ==========================================
 
    File ini berisi semua variable untuk:
@@ -10,40 +10,47 @@
 */
 
 :root {
-  /* ===== PRIMARY COLORS - Dark Blue Theme ===== */
-  --primary-bg: #0f172a;        /* Background utama (slate 900) */
-  --secondary-bg: #1e293b;      /* Background card/panel (slate 800) */
-  --tertiary-bg: #334155;       /* Background hover/active (slate 700) */
+  /* ===== PRIMARY COLORS - Blue-White Theme (Bold & Vibrant) ===== */
+  --primary-blue: #1D4ED8;      /* Primary Blue - lebih pekat (blue 700) */
+  --dark-blue: #1E3A8A;         /* Dark Blue - sangat pekat (blue 900) */
+  --light-blue: #DBEAFE;        /* Light Blue - lebih pekat (blue 200) */
+  --soft-blue-gray: #E0E7FF;    /* Soft Blue Gray - lebih biru (indigo 100) */
+  --border-blue: #93C5FD;       /* Border Blue - lebih terlihat (blue 300) */
 
-  --accent-blue: #3b82f6;       /* Warna aksen utama (blue 500) */
-  --accent-blue-hover: #2563eb; /* Hover state (blue 600) */
-  --accent-blue-light: #60a5fa; /* Light variant (blue 400) */
+  --primary-bg: #EFF6FF;        /* Background utama (blue 50 - lebih biru) */
+  --secondary-bg: #FFFFFF;      /* Background card/panel (White - untuk pop-out) */
+  --tertiary-bg: #DBEAFE;       /* Background hover/active (blue 200 - lebih pekat) */
+  --section-bg: #DBEAFE;        /* Background untuk section terpisah (blue 200) */
+
+  --accent-blue: #1D4ED8;       /* Warna aksen utama (blue 700 - pekat) */
+  --accent-blue-hover: #1E3A8A; /* Hover state (blue 900 - sangat pekat) */
+  --accent-blue-light: #2563EB; /* Light variant (blue 600) */
 
   /* ===== TEXT COLORS ===== */
-  --text-primary: #f1f5f9;      /* Heading & text utama (slate 100) */
-  --text-secondary: #94a3b8;    /* Body text (slate 400) */
-  --text-muted: #64748b;        /* Text muted/disabled (slate 500) */
+  --text-primary: #0F172A;      /* Navy gelap - keterbacaan tinggi */
+  --text-secondary: #475569;    /* Abu-abu biru - lebih gelap (slate 600) */
+  --text-muted: #64748B;        /* Text muted (slate 500) */
 
   /* ===== STATUS COLORS ===== */
   --success: #10b981;           /* Success/Normal (green 500) */
-  --success-bg: #064e3b;        /* Success background (green 900) */
-  --success-light: #d1fae5;     /* Success light (green 100) */
+  --success-bg: #ECFDF5;        /* Success background (green 50) */
+  --success-light: #D1FAE5;     /* Success light (green 100) */
 
-  --danger: #ef4444;            /* Danger/Failure (red 500) */
-  --danger-bg: #7f1d1d;         /* Danger background (red 900) */
-  --danger-light: #fee2e2;      /* Danger light (red 100) */
+  --danger: #EF4444;            /* Danger/Failure (red 500) */
+  --danger-bg: #FEF2F2;         /* Danger background (red 50) */
+  --danger-light: #FEE2E2;      /* Danger light (red 100) */
 
-  --warning: #f59e0b;           /* Warning (amber 500) */
-  --warning-bg: #78350f;        /* Warning background (amber 900) */
-  --warning-light: #fef3c7;     /* Warning light (amber 100) */
+  --warning: #F59E0B;           /* Warning (amber 500) */
+  --warning-bg: #FFFBEB;        /* Warning background (amber 50) */
+  --warning-light: #FEF3C7;     /* Warning light (amber 100) */
 
-  --info: #06b6d4;              /* Info (cyan 500) */
-  --info-bg: #164e63;           /* Info background (cyan 900) */
+  --info: #3B82F6;              /* Info (blue 500) */
+  --info-bg: #EFF6FF;           /* Info background (blue 50) */
 
   /* ===== BORDER & DIVIDER ===== */
-  --border: #334155;            /* Border default (slate 700) */
-  --border-light: #475569;      /* Border light (slate 600) */
-  --divider: #1e293b;           /* Divider line (slate 800) */
+  --border: #93C5FD;            /* Border default (blue 300 - lebih terlihat) */
+  --border-light: #60A5FA;      /* Border light (blue 400 - lebih pekat) */
+  --divider: #DBEAFE;           /* Divider line (blue 200) */
 
   /* ===== SPACING ===== */
   --space-xs: 0.25rem;   /* 4px */
@@ -99,11 +106,12 @@
   --radius-xl: 1rem;       /* 16px */
   --radius-full: 9999px;   /* Rounded full */
 
-  /* ===== SHADOWS ===== */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  /* ===== SHADOWS (dengan tint biru lebih pekat) ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(29, 78, 216, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(29, 78, 216, 0.12);
+  --shadow-lg: 0 10px 15px -3px rgba(29, 78, 216, 0.15);
+  --shadow-xl: 0 20px 25px -5px rgba(29, 78, 216, 0.18);
+  --shadow-blue: 0 0 0 3px rgba(29, 78, 216, 0.2); /* Focus ring - lebih terlihat */
 
   /* ===== TRANSITIONS ===== */
   --transition-fast: 150ms ease;
