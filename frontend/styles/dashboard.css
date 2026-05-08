@@ -20,12 +20,12 @@
 
 .breadcrumb {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
+  color: #6B7280;
   margin-bottom: var(--space-sm);
 }
 
 .breadcrumb a {
-  color: var(--text-muted);
+  color: #6B7280;
   transition: color var(--transition-base);
 }
 
@@ -39,10 +39,11 @@
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
+  color: #0A0A0A;
 }
 
 .page-subtitle {
-  color: var(--text-muted);
+  color: #6B7280;
   font-size: var(--font-size-base);
 }
 
@@ -114,11 +115,12 @@
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
+  color: #0A0A0A;
 }
 
 .result-status-text p {
   font-size: var(--font-size-sm);
-  color: var(--text-muted);
+  color: #6B7280;
 }
 
 .result-meta {
@@ -132,7 +134,7 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: #6B7280;
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-xs);
 }
@@ -141,7 +143,7 @@
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
+  color: #0A0A0A;
 }
 
 /* Probability Bar */
@@ -157,7 +159,7 @@
 
 .prob-label {
   font-size: var(--font-size-sm);
-  color: var(--text-muted);
+  color: #6B7280;
   font-weight: var(--font-weight-medium);
 }
 
@@ -165,10 +167,11 @@
   font-family: var(--font-mono);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
+  color: #0A0A0A;
 }
 
 .prob-track {
-  background-color: var(--light-green);
+  background-color: rgba(34, 197, 94, 0.1);
   border-radius: var(--radius-full);
   height: 8px;
   overflow: hidden;
@@ -186,18 +189,19 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: #6B7280;
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-sm);
 }
 
 .recommendation {
-  background-color: var(--light-green);
+  background-color: rgba(34, 197, 94, 0.05);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
-  border-left: 3px solid var(--primary-green);
+  border-left: 3px solid #22C55E;
+  color: #0A0A0A;
 }
 
 /* Info Card */
@@ -205,7 +209,7 @@
   font-size: var(--font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: #6B7280;
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-md);
 }
@@ -228,22 +232,22 @@
   font-weight: var(--font-weight-semibold);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
-  background-color: var(--light-green);
-  color: var(--primary-green);
-  border: 1px solid var(--border-green);
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.3);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .ft-desc {
   font-size: var(--font-size-sm);
-  color: var(--text-muted);
+  color: #6B7280;
   line-height: var(--line-height-normal);
 }
 
 .checked-at {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
+  color: #6B7280;
   font-family: var(--font-mono);
   margin-top: var(--space-md);
   text-align: right;

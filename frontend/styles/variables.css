@@ -13,48 +13,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 :root {
-  /* ===== PRIMARY COLORS - Green-White Theme (Premium & Professional) ===== */
-  --primary-green: #10b981;     /* Primary Green - navbar, buttons, accents */
-  --dark-green: #047857;        /* Dark Green - hover states */
-  --light-green: #ECFDF5;       /* Light Green - section backgrounds */
-  --page-base: #F8FAFC;         /* Page Base - main background */
-  --border-accent: #A7F3D0;     /* Border/Accent - card borders */
+  /* ===== PRIMARY COLORS - Black-Green-White Theme (Premium Tech) ===== */
+  --primary-black: #0A0A0A;     /* Primary Black - main dark background */
+  --dark-surface: #111827;      /* Dark Surface - card bg on dark areas */
+  --darker-surface: #1F2937;    /* Darker Surface - nested cards */
+  --navbar-bg: #0A0A0A;         /* Navbar solid black */
 
-  --primary-bg: #F8FAFC;        /* Background utama aplikasi */
-  --secondary-bg: #FFFFFF;      /* Background card/panel (White - untuk pop-out) */
-  --tertiary-bg: #ECFDF5;       /* Background hover/active */
-  --section-bg: #ECFDF5;        /* Background untuk section terpisah */
+  --primary-green: #22C55E;     /* Primary Green - accent, buttons, lines */
+  --green-hover: #16A34A;       /* Green Hover - hover states */
+  --green-light-bg: #F0FDF4;    /* Green Light BG - light section tint */
 
-  --accent-green: #10b981;      /* Warna aksen utama */
-  --accent-green-hover: #047857; /* Hover state */
-  --accent-green-light: #34d399; /* Light variant */
+  --white: #FFFFFF;             /* White - text on dark, light section bg */
+  --white-muted: #D1D5DB;       /* White Muted - secondary text on dark */
+  --off-white: #F9FAFB;         /* Off White - light section background */
+
+  --primary-bg: #0A0A0A;        /* Background utama aplikasi */
+  --secondary-bg: #FFFFFF;      /* Background card/panel putih */
+  --tertiary-bg: #F0FDF4;       /* Background hover/active */
+  --section-bg-light: #F9FAFB;  /* Background section terang */
+  --section-bg-dark: #111827;   /* Background section gelap */
+
+  --accent-green: #22C55E;      /* Warna aksen utama */
+  --accent-green-hover: #16A34A; /* Hover state */
 
   /* ===== TEXT COLORS ===== */
-  --text-primary: #0F172A;      /* Navy gelap - keterbacaan tinggi */
-  --text-secondary: #475569;    /* Text secondary - descriptions/labels */
-  --text-muted: #64748B;        /* Text muted (slate 500) */
+  --text-primary: #FFFFFF;      /* Text primary on dark */
+  --text-primary-dark: #0A0A0A; /* Text primary on light */
+  --text-secondary: #D1D5DB;    /* Text secondary on dark */
+  --text-muted: #9CA3AF;        /* Text muted */
 
   /* ===== STATUS COLORS ===== */
-  --success: #059669;           /* Success/Normal (green 600 - lebih bold) */
-  --success-bg: #D1FAE5;        /* Success background (green 100 - lebih terlihat) */
-  --success-light: #A7F3D0;     /* Success light (green 200) */
+  --success: #22C55E;           /* Success/Normal (green) */
+  --success-bg: #14532D;        /* Success background (dark green) */
+  --success-light: #86EFAC;     /* Success light */
 
-  --danger: #DC2626;            /* Danger/Failure (red 600 - lebih bold) */
-  --danger-bg: #FEE2E2;         /* Danger background (red 100 - lebih terlihat) */
-  --danger-light: #FECACA;      /* Danger light (red 200) */
+  --danger: #EF4444;            /* Danger/Failure (red) */
+  --danger-bg: #7F1D1D;         /* Danger background (dark red) */
+  --danger-light: #FCA5A5;      /* Danger light */
 
-  --warning: #D97706;           /* Warning (amber 600 - lebih bold) */
-  --warning-bg: #FEF3C7;        /* Warning background (amber 100 - lebih terlihat) */
-  --warning-light: #FDE68A;     /* Warning light (amber 200) */
+  --warning: #F59E0B;           /* Warning (amber) */
+  --warning-bg: #78350F;        /* Warning background (dark amber) */
+  --warning-light: #FCD34D;     /* Warning light */
 
-  --info: #10b981;              /* Info (green 500) */
-  --info-bg: #ECFDF5;           /* Info background (green 50) */
+  --info: #22C55E;              /* Info (green) */
+  --info-bg: #14532D;           /* Info background (dark green) */
 
   /* ===== BORDER & DIVIDER ===== */
-  --border: #A7F3D0;            /* Border default */
-  --border-green: #A7F3D0;      /* Border green - card and component borders */
-  --border-light: #6EE7B7;      /* Border light */
-  --divider: #A7F3D0;           /* Divider line */
+  --border: #374151;            /* Border default (gray on dark) */
+  --border-green: #22C55E;      /* Border green - accent borders */
+  --border-light: #E5E7EB;      /* Border light (on white bg) */
+  --divider: #374151;           /* Divider line */
 
   /* ===== SPACING ===== */
   --space-xs: 0.25rem;   /* 4px */
@@ -111,12 +119,13 @@
   --radius-xl: 1rem;       /* 16px */
   --radius-full: 9999px;   /* Rounded full */
 
-  /* ===== SHADOWS (dengan tint hijau untuk depth) ===== */
-  --shadow-sm: 0 1px 3px 0 rgba(16, 185, 129, 0.1), 0 1px 2px 0 rgba(16, 185, 129, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(16, 185, 129, 0.1), 0 4px 6px -2px rgba(16, 185, 129, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
-  --shadow-green: 0 0 0 3px rgba(16, 185, 129, 0.15); /* Focus ring */
+  /* ===== SHADOWS (dark theme shadows) ===== */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --shadow-green: 0 0 20px rgba(34, 197, 94, 0.08); /* Green glow subtle */
+  --shadow-green-focus: 0 0 0 3px rgba(34, 197, 94, 0.3); /* Focus ring */
 
   /* ===== TRANSITIONS ===== */
   --transition-fast: 150ms ease;

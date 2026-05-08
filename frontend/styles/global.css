@@ -37,8 +37,8 @@ body {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
-  color: var(--text-secondary);
-  background-color: var(--primary-bg);
+  color: var(--text-primary-dark);
+  background-color: #0A0A0A;
   min-height: 100vh;
   letter-spacing: var(--letter-spacing-normal);
 }
@@ -106,14 +106,14 @@ code, pre {
 }
 
 a {
-  color: var(--primary-green);
+  color: #22C55E;
   text-decoration: none;
   transition: color var(--transition-base);
   position: relative;
 }
 
 a:hover {
-  color: var(--dark-green);
+  color: #16A34A;
 }
 
 a:not(.btn):not(.navbar-link):not(.page-card)::after {
@@ -123,7 +123,7 @@ a:not(.btn):not(.navbar-link):not(.page-card)::after {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--primary-green);
+  background-color: #22C55E;
   transition: width var(--transition-base);
 }
 
@@ -261,11 +261,11 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-green);
+  background: #22C55E;
 }
 
 /* ===== SELECTION ===== */
 ::selection {
-  background-color: var(--primary-green);
-  color: #FFFFFF;
+  background-color: #22C55E;
+  color: #0A0A0A;
 }

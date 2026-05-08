@@ -15,11 +15,11 @@ renderFooter();
 
 // Failure type colors
 const FT_COLORS = {
-  TWF: '#ef4444',
-  HDF: '#f97316',
-  PWF: '#3b82f6',
-  OSF: '#a855f7',
-  RNF: '#6b7280'
+  TWF: '#22C55E',
+  HDF: '#16A34A',
+  PWF: '#4ADE80',
+  OSF: '#86EFAC',
+  RNF: '#BBF7D0'
 };
 
 let donutChart, barChart;
@@ -38,7 +38,7 @@ async function loadAnalytics() {
     renderAnalytics(data);
   } catch (error) {
     console.error('Error loading analytics:', error);
-    document.getElementById('statTotal').textContent = 'Error';
+    document.getElementById('statTotalAnalytics').textContent = 'Error';
   }
 }
 
@@ -52,10 +52,10 @@ function renderAnalytics(data) {
   document.getElementById('lastChecked').textContent = formatDateTime(data.latest_checked_at);
 
   // Stats
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statNormal').textContent = normal;
-  document.getElementById('statFailure').textContent = failure;
-  document.getElementById('statRate').textContent = data.failure_rate + '%';
+  document.getElementById('statTotalAnalytics').textContent = total;
+  document.getElementById('statNormalAnalytics').textContent = normal;
+  document.getElementById('statFailureAnalytics').textContent = failure;
+  document.getElementById('statRateAnalytics').textContent = data.failure_rate + '%';
 
   document.getElementById('statNormalPct').textContent =
     total > 0 ? ((normal / total) * 100).toFixed(1) + '% dari total' : '—';
@@ -71,7 +71,7 @@ function renderAnalytics(data) {
       labels: ['Normal', 'Failure'],
       datasets: [{
         data: [normal, failure],
-        backgroundColor: ['#10b981', '#ef4444'],
+        backgroundColor: ['#22C55E', '#DC2626'],
         borderWidth: 0,
         hoverOffset: 6
       }]
@@ -84,9 +84,9 @@ function renderAnalytics(data) {
         legend: {
           position: 'bottom',
           labels: {
-            font: { family: 'DM Sans', size: 12 },
+            font: { family: 'Poppins', size: 12 },
             padding: 16,
-            color: '#94a3b8'
+            color: '#D1D5DB'
           }
         }
       }
@@ -97,7 +97,7 @@ function renderAnalytics(data) {
   const ftData = data.per_failure_type;
   const ftLabels = Object.keys(ftData);
   const ftValues = Object.values(ftData);
-  const ftColors = ftLabels.map(k => FT_COLORS[k] || '#6b7280');
+  const ftColors = ftLabels.map(k => FT_COLORS[k] || '#22C55E');
 
   if (barChart) barChart.destroy();
   const barCtx = document.getElementById('barChart').getContext('2d');
@@ -124,15 +124,15 @@ function renderAnalytics(data) {
           beginAtZero: true,
           ticks: {
             stepSize: 1,
-            font: { family: 'DM Mono', size: 11 },
-            color: '#94a3b8'
+            font: { family: 'Poppins', size: 11 },
+            color: '#D1D5DB'
           },
-          grid: { color: '#334155' }
+          grid: { color: '#374151' }
         },
         x: {
           ticks: {
-            font: { family: 'DM Mono', size: 11 },
-            color: '#94a3b8'
+            font: { family: 'Poppins', size: 11 },
+            color: '#D1D5DB'
           },
           grid: { display: false }
         }
