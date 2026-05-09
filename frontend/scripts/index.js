@@ -93,11 +93,11 @@ loadHomeStats();
 // ==========================================
 
 const FAILURE_RECOMMENDATIONS = {
-  TWF: 'Segera ganti alat potong (tool) yang sudah aus. Periksa jadwal maintenance rutin untuk mencegah keausan berlebih.',
-  HDF: 'Periksa sistem pendingin mesin. Pastikan sirkulasi udara lancar dan tidak ada penyumbatan pada heat sink atau kipas.',
-  PWF: 'Periksa suplai daya dan kondisi motor. Pastikan tegangan listrik stabil dan tidak ada komponen kelistrikan yang rusak.',
-  OSF: 'Kurangi beban kerja mesin atau tingkatkan kapasitas. Hindari operasi di luar spesifikasi teknis yang direkomendasikan.',
-  RNF: 'Lakukan inspeksi menyeluruh pada semua komponen mesin. Kegagalan ini bersifat acak dan memerlukan pengecekan komprehensif.'
+  TWF: 'Segera hentikan operasi dan ganti alat potong yang aus. Catat durasi pemakaian tool saat ini dan sesuaikan interval penggantian. Periksa parameter cutting speed dan feed rate nilai ekstrem mempercepat keausan tool.',
+  HDF: 'Periksa sistem pendingin mesin: cek aliran coolant, bersihkan filter dan saluran yang tersumbat, serta pastikan kipas dan heat sink berfungsi normal. Kurangi kecepatan operasi sementara hingga suhu kembali normal.',
+  PWF: 'Periksa tegangan dan arus listrik pada panel, pastikan tidak ada lonjakan atau drop tegangan. Cek kondisi motor listrik, VFD (inverter), dan gearbox. Evaluasi kombinasi torque dan rotational speed agar tidak melebihi batas daya maksimum mesin.',
+  OSF: 'Kurangi beban kerja segera,, turunkan nilai torque atau rotational speed agar berada dalam batas spesifikasi teknis. Periksa kondisi tool wear karena keausan tool meningkatkan gaya potong dan memperparah overstrain.',
+  RNF: 'Lakukan inspeksi menyeluruh pada semua komponen mesin karena penyebab kegagalan tidak teridentifikasi secara spesifik. Dokumentasikan kondisi sensor saat kegagalan terjadi untuk analisis lebih lanjut.'
 };
 
 const btnPredict = document.getElementById('btnPredict');
