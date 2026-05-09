@@ -10,58 +10,61 @@
 */
 
 /* Import Poppins Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* ===== PRIMARY COLORS - Black-Green-White Theme (Premium Tech) ===== */
+  /* ===== PRIMARY COLORS - Black-Green-White Theme ===== */
   --primary-black: #0A0A0A;     /* Primary Black - main dark background */
   --dark-surface: #111827;      /* Dark Surface - card bg on dark areas */
-  --darker-surface: #1F2937;    /* Darker Surface - nested cards */
-  --navbar-bg: #0A0A0A;         /* Navbar solid black */
+  --dark-card: #1F2937;         /* Dark Card - nested cards */
+  --dark-border: #374151;       /* Dark Border */
 
-  --primary-green: #22C55E;     /* Primary Green - accent, buttons, lines */
+  --primary-green: #22C55E;     /* Primary Green - navbar, buttons, accents */
   --green-hover: #16A34A;       /* Green Hover - hover states */
-  --green-light-bg: #F0FDF4;    /* Green Light BG - light section tint */
+  --green-light: #4ADE80;       /* Green Light - lighter accent */
+  --green-pale: #86EFAC;        /* Green Pale - pale accent */
+  --green-bg: #F0FDF4;          /* Green BG - light section tint */
 
   --white: #FFFFFF;             /* White - text on dark, light section bg */
   --white-muted: #D1D5DB;       /* White Muted - secondary text on dark */
-  --off-white: #F9FAFB;         /* Off White - light section background */
+  --white-bg: #F9FAFB;          /* White BG - light section background */
+  --text-dark: #0A0A0A;         /* Text Dark - text on light */
+  --text-gray: #374151;         /* Text Gray - secondary text */
 
+  --navbar-bg: #0A0A0A;         /* Navbar solid black */
   --primary-bg: #0A0A0A;        /* Background utama aplikasi */
   --secondary-bg: #FFFFFF;      /* Background card/panel putih */
   --tertiary-bg: #F0FDF4;       /* Background hover/active */
   --section-bg-light: #F9FAFB;  /* Background section terang */
   --section-bg-dark: #111827;   /* Background section gelap */
 
-  --accent-green: #22C55E;      /* Warna aksen utama */
-  --accent-green-hover: #16A34A; /* Hover state */
-
   /* ===== TEXT COLORS ===== */
   --text-primary: #FFFFFF;      /* Text primary on dark */
   --text-primary-dark: #0A0A0A; /* Text primary on light */
   --text-secondary: #D1D5DB;    /* Text secondary on dark */
-  --text-muted: #9CA3AF;        /* Text muted */
+  --text-muted: #374151;        /* Text muted */
+  --text-on-dark: #FFFFFF;      /* Text on dark background */
 
   /* ===== STATUS COLORS ===== */
   --success: #22C55E;           /* Success/Normal (green) */
-  --success-bg: #14532D;        /* Success background (dark green) */
+  --success-bg: #F0FDF4;        /* Success background (light green) */
   --success-light: #86EFAC;     /* Success light */
 
-  --danger: #EF4444;            /* Danger/Failure (red) */
-  --danger-bg: #7F1D1D;         /* Danger background (dark red) */
+  --danger: #DC2626;            /* Danger/Failure (red) */
+  --danger-bg: #FEE2E2;         /* Danger background (light red) */
   --danger-light: #FCA5A5;      /* Danger light */
 
-  --warning: #F59E0B;           /* Warning (amber) */
-  --warning-bg: #78350F;        /* Warning background (dark amber) */
-  --warning-light: #FCD34D;     /* Warning light */
+  --warning: #22C55E;           /* Warning (green) */
+  --warning-bg: #F0FDF4;        /* Warning background (light green) */
+  --warning-light: #86EFAC;     /* Warning light */
 
   --info: #22C55E;              /* Info (green) */
-  --info-bg: #14532D;           /* Info background (dark green) */
+  --info-bg: #F0FDF4;           /* Info background (light green) */
 
   /* ===== BORDER & DIVIDER ===== */
-  --border: #374151;            /* Border default (gray on dark) */
-  --border-green: #22C55E;      /* Border green - accent borders */
-  --border-light: #E5E7EB;      /* Border light (on white bg) */
+  --border: #374151;            /* Border default */
+  --border-green: #22C55E;      /* Border green - card borders */
+  --border-light: #E2E8F0;      /* Border light */
   --divider: #374151;           /* Divider line */
 
   /* ===== SPACING ===== */
@@ -77,7 +80,7 @@
   /* Poppins for everything - premium and professional */
   --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Poppins', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --font-mono: 'Poppins', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
   /* Font Sizes - Responsive scaling */
   --font-size-xs: 0.75rem;      /* 12px */
@@ -119,12 +122,12 @@
   --radius-xl: 1rem;       /* 16px */
   --radius-full: 9999px;   /* Rounded full */
 
-  /* ===== SHADOWS (dark theme shadows) ===== */
+  /* ===== SHADOWS (dark theme with green tint) ===== */
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-  --shadow-green: 0 0 20px rgba(34, 197, 94, 0.08); /* Green glow subtle */
+  --shadow-green: 0 4px 14px 0 rgba(34, 197, 94, 0.15); /* Green shadow for depth */
   --shadow-green-focus: 0 0 0 3px rgba(34, 197, 94, 0.3); /* Focus ring */
 
   /* ===== TRANSITIONS ===== */

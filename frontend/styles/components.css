@@ -12,119 +12,7 @@
 */
 
 /* ===== NAVBAR ===== */
-.navbar {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--navbar-height);
-  background-color: #0A0A0A;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #22C55E;
-  z-index: var(--z-navbar);
-  transition: background-color var(--transition-base), box-shadow var(--transition-base);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-}
-
-.navbar:hover {
-  box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-container {
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar-logo {
-  font-family: var(--font-primary);
-  font-size: var(--font-size-xl);
-  color: #FFFFFF;
-  font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  transition: all var(--transition-base);
-  letter-spacing: var(--letter-spacing-tight);
-}
-
-.navbar-logo:hover {
-  transform: translateY(-1px);
-  color: #22C55E;
-}
-
-.navbar-logo-img {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-}
-
-.navbar-logo-text {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.navbar-logo-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #FFFFFF;
-  border-radius: var(--radius-full);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.3);
-  }
-}
-
-.navbar-menu {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xl);
-}
-
-.navbar-link {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-display);
-  color: #D1D5DB;
-  transition: all var(--transition-base);
-  padding: var(--space-sm) var(--space-md);
-  position: relative;
-  border-radius: var(--radius-md);
-}
-
-.navbar-link:hover {
-  color: #22C55E;
-  opacity: 1;
-}
-
-.navbar-link.active {
-  color: #22C55E;
-  font-weight: var(--font-weight-semibold);
-}
-
-.navbar-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: var(--space-sm);
-  right: var(--space-sm);
-  height: 2px;
-  background-color: #22C55E;
-  border-radius: var(--radius-full);
-}
+/* Navbar styles moved to navbar.css */
 
 /* ===== BUTTONS ===== */
 .btn {
@@ -134,10 +22,10 @@
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  font-family: 'Poppins', sans-serif;
   border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  transition: all 0.3s ease;
   cursor: pointer;
   border: none;
   position: relative;
@@ -145,60 +33,42 @@
   letter-spacing: var(--letter-spacing-normal);
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
 .btn-primary {
   background-color: #22C55E;
   color: #0A0A0A;
   font-weight: 600;
-  box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #16A34A;
+  background-color: #16A34A !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -4px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 .btn-primary:active {
   transform: translateY(0);
-  box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary {
   background-color: transparent;
   color: #22C55E;
-  border: 1px solid #22C55E;
-  box-shadow: 0 2px 4px -1px rgba(34, 197, 94, 0.1);
+  border: 2px solid #22C55E;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:hover {
-  background-color: #22C55E;
-  color: #0A0A0A;
-  border-color: #22C55E;
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #16A34A;
+  border-color: #16A34A;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px -4px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
 }
 
 .btn-secondary:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px -1px rgba(34, 197, 94, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-outline {
@@ -208,24 +78,28 @@
 }
 
 .btn-outline:hover {
-  background-color: #22C55E;
-  color: #0A0A0A;
-  box-shadow: var(--shadow-md);
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #16A34A;
+  border-color: #16A34A;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
 }
 
 .btn-danger {
-  background-color: var(--danger);
+  background-color: #DC2626;
   color: #FFFFFF;
 }
 
 .btn-danger:hover {
-  background-color: #dc2626;
+  background-color: #B91C1C;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  pointer-events: none;
 }
 
 .btn-sm {
@@ -238,19 +112,19 @@
   font-size: var(--font-size-base);
 }
 
-/* Tombol di dalam navbar - style khusus untuk kontras dengan background hitam */
+/* Tombol di dalam navbar - style khusus untuk kontras dengan background black */
 .navbar .btn-primary {
   background-color: #22C55E;
   color: #0A0A0A;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .navbar .btn-primary:hover {
   background-color: #16A34A;
   color: #0A0A0A;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 /* ===== CARDS ===== */
@@ -259,7 +133,7 @@
   border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: var(--space-lg);
-  transition: all var(--transition-base);
+  transition: all 0.3s ease;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   position: relative;
 }
@@ -271,21 +145,21 @@
   left: 0;
   top: var(--space-md);
   bottom: var(--space-md);
-  width: 4px;
-  background-color: #22C55E;
+  width: 3px;
+  background: linear-gradient(180deg, #22C55E 0%, #16A34A 100%);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .card:hover {
-  border-color: #22C55E;
-  box-shadow: var(--shadow-green);
+  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.15);
   transform: translateY(-2px);
 }
 
 .card-header {
   padding-bottom: var(--space-md);
   margin-bottom: var(--space-md);
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid rgba(34, 197, 94, 0.15);
 }
 
 .card-title {
@@ -310,7 +184,7 @@
 .card-footer {
   padding-top: var(--space-md);
   margin-top: var(--space-md);
-  border-top: 1px solid var(--border-green);
+  border-top: 1px solid rgba(34, 197, 94, 0.15);
 }
 
 /* ===== BADGES ===== */
@@ -356,14 +230,28 @@
   margin-bottom: var(--space-lg);
 }
 
+label,
 .form-label {
   display: block;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-display);
-  color: var(--text-secondary);
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: #D1D5DB;
   margin-bottom: var(--space-xs);
-  transition: color var(--transition-base);
+  transition: color 0.3s ease;
+}
+
+/* Label di dalam card putih harus gelap */
+.card label,
+.card .form-label,
+.bg-white label,
+.bg-white .form-label {
+  color: #374151;
+}
+
+.label-unit {
+  color: #9CA3AF !important;
+  font-weight: var(--font-weight-normal);
 }
 
 .form-input,
@@ -372,13 +260,17 @@
   width: 100%;
   padding: var(--space-sm) var(--space-md);
   font-size: var(--font-size-sm);
-  font-family: var(--font-display);
-  color: var(--text-primary-dark);
-  background-color: var(--secondary-bg);
-  border: 1.5px solid var(--border-light);
+  font-family: 'Poppins', sans-serif;
+  color: #0A0A0A;
+  background-color: #FFFFFF;
+  border: 1.5px solid #D1D5DB;
   border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  transition: all 0.3s ease;
   outline: none;
+}
+
+.form-input::placeholder {
+  color: #9CA3AF;
 }
 
 .form-input:hover,
@@ -391,18 +283,32 @@
 .form-select:focus,
 .form-textarea:focus {
   border-color: #22C55E;
-  box-shadow: var(--shadow-green-focus);
-  background-color: var(--secondary-bg);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  background-color: #FFFFFF;
+  outline: none;
 }
 
 .form-input::placeholder {
-  color: var(--text-muted);
+  color: #9CA3AF !important;
 }
 
-.form-hint {
+small,
+.form-hint,
+.helper-text {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
+  color: #9CA3AF;
   margin-top: var(--space-xs);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Helper text di dalam card putih */
+.card small,
+.card .form-hint,
+.card .helper-text,
+.bg-white small,
+.bg-white .form-hint,
+.bg-white .helper-text {
+  color: #6B7280;
 }
 
 .form-error {
@@ -443,18 +349,18 @@
   padding: var(--space-md) var(--space-lg);
   text-align: left;
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 600;
   font-family: var(--font-display);
-  color: #22C55E;
+  color: #16A34A;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background-color: #F0FDF4;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 .table tbody tr {
-  border-bottom: 1px solid var(--border-light);
-  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid rgba(34, 197, 94, 0.1);
+  transition: background-color 0.2s ease;
 }
 
 .table tbody tr:last-child {
@@ -469,7 +375,20 @@
   padding: var(--space-md) var(--space-lg);
   font-size: var(--font-size-sm);
   font-family: var(--font-display);
-  color: var(--text-secondary);
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Khusus untuk tabel di dalam card - pastikan kontras tinggi */
+.card table tbody td {
+  color: #374151 !important;
+  font-weight: 500;
+}
+
+/* Khusus untuk header tabel di dalam card */
+.card table thead th {
+  color: #16A34A !important;
+  font-weight: 600;
 }
 
 /* ===== LOADING SPINNER ===== */
@@ -575,7 +494,7 @@
 .footer-link {
   font-size: var(--font-size-sm);
   color: #D1D5DB;
-  transition: color var(--transition-base);
+  transition: color 0.3s ease;
   text-decoration: none;
 }
 

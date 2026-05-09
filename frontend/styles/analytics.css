@@ -12,17 +12,17 @@
 
 .breadcrumb {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
+  color: #D1D5DB !important;
   margin-bottom: var(--space-sm);
 }
 
 .breadcrumb a {
-  color: var(--text-muted);
-  transition: color var(--transition-base);
+  color: #D1D5DB !important;
+  transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
-  color: var(--primary-blue);
+  color: var(--primary-green);
 }
 
 .page-title {
@@ -31,10 +31,11 @@
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
+  color: #FFFFFF !important;
 }
 
 .page-subtitle {
-  color: var(--text-muted);
+  color: #D1D5DB !important;
   font-size: var(--font-size-base);
 }
 
@@ -60,7 +61,7 @@
 
 .last-checked-label {
   font-size: var(--font-size-sm);
-  color: #6B7280;
+  color: #374151 !important;
 }
 
 .last-checked-value {
@@ -85,7 +86,7 @@
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  color: #0A0A0A;
+  color: var(--text-primary-dark);
 }
 
 .stat-card * {
@@ -129,7 +130,7 @@
 .stat-value {
   font-family: var(--font-primary);
   font-size: var(--font-size-3xl);
-  color: #0A0A0A !important;
+  color: #0A0A0A;
   line-height: 1;
   font-weight: var(--font-weight-bold);
 }
@@ -180,13 +181,13 @@
 .chart-title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   margin-bottom: var(--space-xs);
 }
 
 .chart-subtitle {
   font-size: var(--font-size-sm);
-  color: #D1D5DB;
+  color: #D1D5DB !important;
 }
 
 .chart-container {
@@ -205,7 +206,7 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #D1D5DB;
+  color: #D1D5DB !important;
   font-weight: var(--font-weight-semibold);
   padding: var(--space-sm) var(--space-md);
   border-bottom: 1px solid #374151;
@@ -216,7 +217,7 @@
   padding: var(--space-sm) var(--space-md);
   font-size: var(--font-size-sm);
   border-bottom: 1px solid #374151;
-  color: #E5E7EB;
+  color: #E5E7EB !important;
 }
 
 .breakdown-table tr:last-child td {
@@ -266,7 +267,7 @@
 .model-metric {
   font-family: var(--font-primary);
   font-size: var(--font-size-2xl);
-  color: #16A34A;
+  color: #16A34A !important;
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
 }
@@ -275,7 +276,7 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #374151;
+  color: #374151 !important;
   font-weight: var(--font-weight-semibold);
 }
 

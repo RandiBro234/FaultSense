@@ -1,8 +1,8 @@
 /* ==========================================
-   SINGLE PAGE APPLICATION SCRIPT
+   SINGLE PAGE APPLICATION SCRIPT - TABBED VERSION
    ==========================================
 
-   JavaScript untuk halaman single-page dengan semua section
+   JavaScript untuk halaman single-page dengan tab navigation
 */
 
 import { renderNavbar } from '../components/navbar.js';
@@ -12,6 +12,54 @@ import { API_BASE_URL, formatDateTime, getProbabilityColor, getStatusBadgeClass 
 // Render navbar dan footer
 renderNavbar('home');
 renderFooter();
+
+// ==========================================
+// TAB NAVIGATION SYSTEM
+// ==========================================
+
+let currentTab = 'home';
+
+function switchTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+
+  // Show selected tab
+  const targetTab = document.getElementById(`tab-${tabName}`);
+  if (targetTab) {
+    targetTab.classList.add('active');
+    currentTab = tabName;
+  }
+
+  // Update navbar active state
+  document.querySelectorAll('.navbar-link').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('data-tab') === tabName) {
+      link.classList.add('active');
+    }
+  });
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Load data for specific tabs
+  if (tabName === 'history') {
+    loadHistory();
+  } else if (tabName === 'analytics') {
+    loadAnalytics();
+  }
+}
+
+// Event listeners for tab navigation
+document.addEventListener('click', (e) => {
+  const tabTrigger = e.target.closest('[data-tab]');
+  if (tabTrigger) {
+    e.preventDefault();
+    const tabName = tabTrigger.getAttribute('data-tab');
+    switchTab(tabName);
+  }
+});
 
 // ==========================================
 // HOME SECTION
@@ -32,7 +80,10 @@ async function loadHomeStats() {
 
 // Animate probability bar
 setTimeout(() => {
-  document.getElementById('probFill').style.width = '12%';
+  const probFill = document.getElementById('probFill');
+  if (probFill) {
+    probFill.style.width = '12%';
+  }
 }, 500);
 
 loadHomeStats();
@@ -49,8 +100,16 @@ const FAILURE_RECOMMENDATIONS = {
   RNF: 'Lakukan inspeksi menyeluruh pada semua komponen mesin. Kegagalan ini bersifat acak dan memerlukan pengecekan komprehensif.'
 };
 
-document.getElementById('btnPredict').addEventListener('click', handlePredict);
-document.getElementById('btnReset').addEventListener('click', resetForm);
+const btnPredict = document.getElementById('btnPredict');
+const btnReset = document.getElementById('btnReset');
+
+if (btnPredict) {
+  btnPredict.addEventListener('click', handlePredict);
+}
+
+if (btnReset) {
+  btnReset.addEventListener('click', resetForm);
+}
 
 async function handlePredict() {
   const btn = document.getElementById('btnPredict');
@@ -95,10 +154,10 @@ async function handlePredict() {
     }
 
     const data = await response.json();
-    console.log('Prediction result:', data); // Debug log
+    console.log('Prediction result:', data);
     renderPredictionResult(data);
   } catch (error) {
-    console.error('Prediction error:', error); // Debug log
+    console.error('Prediction error:', error);
     errorMsg.textContent = 'Terjadi kesalahan: ' + error.message;
     errorMsg.style.display = 'block';
   } finally {
@@ -155,10 +214,16 @@ function resetForm() {
 // HISTORY SECTION
 // ==========================================
 
-loadHistory();
+const btnFilter = document.getElementById('btnFilter');
+const btnResetFilter = document.getElementById('btnResetFilter');
 
-document.getElementById('btnFilter').addEventListener('click', loadHistory);
-document.getElementById('btnResetFilter').addEventListener('click', resetFilters);
+if (btnFilter) {
+  btnFilter.addEventListener('click', loadHistory);
+}
+
+if (btnResetFilter) {
+  btnResetFilter.addEventListener('click', resetFilters);
+}
 
 async function loadHistory() {
   const status = document.getElementById('filterStatus').value;
@@ -268,18 +333,19 @@ function resetFilters() {
 // ==========================================
 
 const FT_COLORS = {
-  TWF: '#ef4444',
-  HDF: '#f97316',
-  PWF: '#3b82f6',
-  OSF: '#a855f7',
-  RNF: '#6b7280'
+  TWF: '#22C55E',
+  HDF: '#16A34A',
+  PWF: '#4ADE80',
+  OSF: '#86EFAC',
+  RNF: '#BBF7D0'
 };
 
 let donutChart, barChart;
 
-loadAnalytics();
-
-document.getElementById('btnRefresh').addEventListener('click', loadAnalytics);
+const btnRefresh = document.getElementById('btnRefresh');
+if (btnRefresh) {
+  btnRefresh.addEventListener('click', loadAnalytics);
+}
 
 async function loadAnalytics() {
   try {
@@ -318,7 +384,7 @@ function renderAnalytics(data) {
       labels: ['Normal', 'Failure'],
       datasets: [{
         data: [normal, failure],
-        backgroundColor: ['#10b981', '#ef4444'],
+        backgroundColor: ['#22C55E', '#DC2626'],
         borderWidth: 0,
         hoverOffset: 6
       }]
@@ -331,9 +397,9 @@ function renderAnalytics(data) {
         legend: {
           position: 'bottom',
           labels: {
-            font: { family: 'DM Sans', size: 12 },
+            font: { family: 'Poppins', size: 12 },
             padding: 16,
-            color: '#94a3b8'
+            color: '#D1D5DB'
           }
         }
       }
@@ -371,15 +437,15 @@ function renderAnalytics(data) {
           beginAtZero: true,
           ticks: {
             stepSize: 1,
-            font: { family: 'DM Mono', size: 11 },
-            color: '#94a3b8'
+            font: { family: 'Poppins', size: 11 },
+            color: '#D1D5DB'
           },
-          grid: { color: '#334155' }
+          grid: { color: '#374151' }
         },
         x: {
           ticks: {
-            font: { family: 'DM Mono', size: 11 },
-            color: '#94a3b8'
+            font: { family: 'Poppins', size: 11 },
+            color: '#D1D5DB'
           },
           grid: { display: false }
         }
@@ -392,7 +458,7 @@ function renderAnalytics(data) {
   const rows = ftLabels.map(ft => {
     const val = ftData[ft];
     const pct = failure > 0 ? ((val / failure) * 100).toFixed(1) : 0;
-    const color = FT_COLORS[ft] || '#6b7280';
+    const color = FT_COLORS[ft] || '#22C55E';
     const width = ((val / maxVal) * 100).toFixed(1);
 
     return `
