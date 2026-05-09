@@ -453,6 +453,7 @@ small,
   height: 40px;
   width: auto;
   object-fit: contain;
+  display: none; /* Hidden - logo removed */
 }
 
 .footer-logo-text {

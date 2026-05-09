@@ -20,7 +20,6 @@ export function renderNavbar(activePage = 'home') {
       <div class="navbar-container">
         <!-- Logo -->
         <a href="javascript:void(0)" class="navbar-logo" data-tab="home">
-          <img src="images/logopens.png" alt="PENS Logo" class="navbar-logo-img">
           <span class="navbar-logo-text">
             <span class="navbar-logo-dot"></span>
             FaultSense
@@ -61,7 +60,6 @@ export function renderNavbarForPages(activePage) {
       <div class="navbar-container">
         <!-- Logo -->
         <a href="../index.html" class="navbar-logo">
-          <img src="../images/logopens.png" alt="PENS Logo" class="navbar-logo-img">
           <span class="navbar-logo-text">
             <span class="navbar-logo-dot"></span>
             FaultSense

@@ -18,7 +18,6 @@ export function renderFooter() {
       <div class="footer-container">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img src="images/logopens.png" alt="PENS Logo" class="footer-logo-img">
             <span class="footer-logo-text">FaultSense</span>
           </div>
           <p class="footer-desc">

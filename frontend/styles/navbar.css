@@ -47,6 +47,7 @@
   width: 36px;
   height: 36px;
   object-fit: contain;
+  display: none; /* Hidden - logo removed */
 }
 
 .navbar-logo-text {
