@@ -26,12 +26,14 @@
 .page-wrapper {
   min-height: 100vh;
   padding-top: var(--navbar-height);
+  background-color: #F9FAFB; /* Light background untuk konten utama */
 }
 
 .page-content {
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: var(--space-2xl) var(--space-lg);
+  background-color: #F9FAFB; /* Light background */
 }
 
 /* ===== FLEXBOX UTILITIES ===== */

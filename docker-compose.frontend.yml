@@ -1,0 +1,15 @@
+services:
+  frontend:
+    image: nginx:alpine
+    container_name: faultsense_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    networks:
+      - faultsense_net
+
+networks:
+  faultsense_net:
+    driver: bridge

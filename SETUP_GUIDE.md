@@ -1,10 +1,12 @@
-# 🚀 Panduan Menjalankan FaultSense (Frontend + Backend)
+# 🚀 Panduan Menjalankan FaultSense (Frontend + Backend + Training)
 
-## 📋 Status Saat Ini
+## 📋 Arsitektur Project
 
-✅ **Frontend** - Sudah selesai di-refactor, siap digunakan  
-❌ **Backend API** - Belum running  
-❌ **Database** - Belum running  
+Project ini menggunakan **3 Docker Compose files terpisah**:
+
+1. **docker-compose.yml** - Backend API + Database (PostgreSQL + pgAdmin)
+2. **docker-compose.frontend.yml** - Frontend Next.js
+3. **docker-compose.training.yml** - Jupyter Lab untuk ML training
 
 ---
 
@@ -22,44 +24,91 @@ cp .env.example .env
 # Edit .env jika perlu (opsional)
 ```
 
-#### 2. Start Services
+#### 2. Start Backend + Database
 ```bash
-# Start semua services (API + PostgreSQL)
-docker compose up --build
-
-
-# Atau run di background
+# Start API + PostgreSQL + pgAdmin
 docker compose up -d --build
-```
 
-#### 3. Verify Services Running
-```bash
-# Check containers
+# Check status
 docker compose ps
 
 # Check API health
 curl http://localhost:8000/health
-
-# Check API docs
-# Buka browser: http://localhost:8000/docs
 ```
 
-#### 4. Start Frontend
+#### 3. Start Frontend (Opsional)
 ```bash
-# Buka terminal baru
-cd "C:\SEMESTER 4\(Praktikum) Teknologi Web Service\FaultSense\frontend"
+# Start frontend Next.js di Docker
+docker compose -f docker-compose.frontend.yml up -d --build
 
-# Start HTTP server
-python -m http.server 8080
+# Check status
+docker compose -f docker-compose.frontend.yml ps
+```
 
-# Atau gunakan Live Server (VS Code extension)
+#### 4. Start Training Environment (Opsional)
+```bash
+# Start Jupyter Lab untuk ML training
+docker compose -f docker-compose.training.yml up -d
+
+# Check status
+docker compose -f docker-compose.training.yml ps
 ```
 
 #### 5. Akses Aplikasi
-- **Frontend**: http://localhost:8080/
+- **Frontend**: http://localhost:3000/ (jika pakai Docker) atau http://localhost:8080/ (jika pakai Python server)
 - **Backend API**: http://localhost:8000
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/health
+- **pgAdmin**: http://localhost:5050 (login: admin@faultsense.com / admin123)
+- **Jupyter Lab**: http://localhost:8888 (untuk training ML)
+
+---
+
+## 🎯 Quick Start Commands
+
+### Jalankan Semua Services
+```bash
+# Backend + Database
+docker compose up -d
+
+# Frontend (pilih salah satu)
+docker compose -f docker-compose.frontend.yml up -d  # Docker
+# ATAU
+cd frontend && python -m http.server 8080            # Python server
+
+# Training (opsional, untuk ML development)
+docker compose -f docker-compose.training.yml up -d
+```
+
+### Jalankan Hanya Backend
+```bash
+docker compose up -d
+```
+
+### Jalankan Hanya Frontend
+```bash
+docker compose -f docker-compose.frontend.yml up -d
+```
+
+### Jalankan Hanya Training
+```bash
+docker compose -f docker-compose.training.yml up -d
+```
+
+### Stop Services
+```bash
+# Stop backend
+docker compose down
+
+# Stop frontend
+docker compose -f docker-compose.frontend.yml down
+
+# Stop training
+docker compose -f docker-compose.training.yml down
+
+# Stop semua sekaligus
+docker compose down && docker compose -f docker-compose.frontend.yml down && docker compose -f docker-compose.training.yml down
+```
 
 ---
 
@@ -201,6 +250,45 @@ echo %DATABASE_URL%
 
 # Restart PostgreSQL
 docker compose restart postgres
+
+# View logs
+docker compose logs postgres
+```
+
+### Problem: Frontend tidak bisa start
+
+**Error: "Port 3000 already in use"**
+```bash
+# Stop container yang menggunakan port 3000
+docker compose -f docker-compose.frontend.yml down
+
+# Atau gunakan port lain (edit docker-compose.frontend.yml)
+```
+
+**Error: "Cannot connect to API"**
+- Pastikan backend sudah running di http://localhost:8000
+- Check environment variable `NEXT_PUBLIC_API_URL`
+- Test API: `curl http://localhost:8000/health`
+
+### Problem: Training tidak bisa start
+
+**Error: "Port 8888 already in use"**
+```bash
+# Stop Jupyter Lab
+docker compose -f docker-compose.training.yml down
+
+# Atau kill process di port 8888
+netstat -ano | findstr :8888
+taskkill /PID <PID> /F
+```
+
+**Error: "Cannot install requirements"**
+```bash
+# Check logs
+docker compose -f docker-compose.training.yml logs
+
+# Rebuild container
+docker compose -f docker-compose.training.yml up -d --build
 ```
 
 ### Problem: Frontend tidak bisa akses API
@@ -230,15 +318,30 @@ curl http://localhost:8000/health
 2. Test API manual dengan curl
 3. Check browser console untuk error
 
+### Problem: pgAdmin tidak bisa connect ke PostgreSQL
+
+**Error: "Unable to connect to server"**
+1. Buka pgAdmin: http://localhost:5050
+2. Login: admin@faultsense.com / admin123
+3. Add New Server:
+   - Name: FaultSense
+   - Host: postgres (bukan localhost!)
+   - Port: 5432
+   - Username: faultsense_user
+   - Password: faultsense_pass
+
 ---
 
 ## 📊 Verifikasi Koneksi
 
 ### Checklist:
-- [ ] Docker Compose running (`docker compose ps`)
+- [ ] Backend API running (`docker compose ps`)
 - [ ] Backend API responding (`curl http://localhost:8000/health`)
-- [ ] PostgreSQL running (check docker compose)
-- [ ] Frontend server running (http://localhost:8080)
+- [ ] PostgreSQL running (`docker compose ps`)
+- [ ] pgAdmin accessible (http://localhost:5050)
+- [ ] Frontend running (Docker atau Python server)
+- [ ] Frontend accessible (http://localhost:3000 atau http://localhost:8080)
+- [ ] Jupyter Lab running (opsional, http://localhost:8888)
 - [ ] Landing page loads
 - [ ] Dashboard page loads
 - [ ] Prediction form works
@@ -249,36 +352,65 @@ curl http://localhost:8000/health
 
 ## 🔄 Workflow Development
 
-### Start Development
+### Start Development (Semua Services)
 ```bash
-# Terminal 1: Backend
+# Terminal 1: Backend + Database
 cd "C:\SEMESTER 4\(Praktikum) Teknologi Web Service\FaultSense"
 docker compose up
 
-# Terminal 2: Frontend
-cd "C:\SEMESTER 4\(Praktikum) Teknologi Web Service\FaultSense\frontend"
+# Terminal 2: Frontend (pilih salah satu)
+# Opsi A: Docker
+docker compose -f docker-compose.frontend.yml up
+
+# Opsi B: Python server
+cd frontend
 python -m http.server 8080
+
+# Terminal 3: Training (opsional)
+docker compose -f docker-compose.training.yml up
+```
+
+### Start Development (Backend Only)
+```bash
+# Untuk development API saja
+docker compose up
 ```
 
 ### Stop Services
 ```bash
-# Stop Docker Compose
+# Stop backend
 docker compose down
 
-# Stop frontend (Ctrl+C di terminal)
+# Stop frontend
+docker compose -f docker-compose.frontend.yml down
+
+# Stop training
+docker compose -f docker-compose.training.yml down
 ```
 
 ### View Logs
 ```bash
-# All services
-docker compose logs
-
-# Specific service
-docker compose logs api
-docker compose logs postgres
-
-# Follow logs
+# Backend logs
 docker compose logs -f api
+docker compose logs -f postgres
+
+# Frontend logs
+docker compose -f docker-compose.frontend.yml logs -f
+
+# Training logs
+docker compose -f docker-compose.training.yml logs -f
+```
+
+### Rebuild Services
+```bash
+# Rebuild backend
+docker compose up -d --build
+
+# Rebuild frontend
+docker compose -f docker-compose.frontend.yml up -d --build
+
+# Rebuild training
+docker compose -f docker-compose.training.yml up -d --build
 ```
 
 ---
@@ -303,37 +435,111 @@ LOG_LEVEL=INFO
 
 ## 🎯 Next Steps
 
-1. **Start Backend**
-   ```bash
-   docker compose up -d
-   ```
+### 1. Start Backend + Database
+```bash
+docker compose up -d
+```
 
-2. **Verify API**
-   ```bash
-   curl http://localhost:8000/health
-   ```
+### 2. Verify API
+```bash
+curl http://localhost:8000/health
+```
 
-3. **Start Frontend**
-   ```bash
-   cd frontend
-   python -m http.server 8080
-   ```
+### 3. Start Frontend (pilih salah satu)
+```bash
+# Opsi A: Docker
+docker compose -f docker-compose.frontend.yml up -d
 
-4. **Test Integration**
-   - Buka http://localhost:8080/
-   - Test prediction form
-   - Check history & analytics
+# Opsi B: Python server
+cd frontend
+python -m http.server 8080
+```
+
+### 4. Start Training (opsional, untuk ML development)
+```bash
+docker compose -f docker-compose.training.yml up -d
+```
+
+### 5. Test Integration
+- Buka http://localhost:3000/ (Docker) atau http://localhost:8080/ (Python)
+- Test prediction form
+- Check history & analytics
+- Access pgAdmin: http://localhost:5050
+- Access Jupyter Lab: http://localhost:8888 (jika training running)
+
+---
+
+## 📦 Docker Compose Files
+
+Project ini menggunakan 3 file docker-compose terpisah:
+
+### 1. `docker-compose.yml` (Backend + Database)
+Services:
+- **postgres**: PostgreSQL database (port 5433)
+- **api**: FastAPI backend (port 8000)
+- **pgadmin**: Database management UI (port 5050)
+
+### 2. `docker-compose.frontend.yml` (Frontend)
+Services:
+- **frontend**: Next.js application (port 3000)
+
+### 3. `docker-compose.training.yml` (ML Training)
+Services:
+- **training**: Jupyter Lab untuk ML development (port 8888)
+- Auto-install dependencies dari `requirements-dev.txt`
+- Volume mounting: `/notebook`, `/data`, `/models`, `/outputs`
 
 ---
 
 ## 📞 Support
 
 Jika masih ada masalah:
-1. Check logs: `docker compose logs`
+1. Check logs: 
+   - Backend: `docker compose logs -f api`
+   - Frontend: `docker compose -f docker-compose.frontend.yml logs -f`
+   - Training: `docker compose -f docker-compose.training.yml logs -f`
 2. Check API docs: http://localhost:8000/docs
 3. Check browser console (F12)
 4. Verify ports tidak bentrok
+5. Check pgAdmin: http://localhost:5050
 
 ---
 
-**Setelah backend running, frontend akan otomatis terhubung ke API! 🚀**
+## 🚀 Use Cases
+
+### Development Backend API
+```bash
+docker compose up
+# API: http://localhost:8000
+# pgAdmin: http://localhost:5050
+```
+
+### Development Frontend
+```bash
+docker compose up -d  # Backend di background
+docker compose -f docker-compose.frontend.yml up
+# Frontend: http://localhost:3000
+```
+
+### ML Training & Experimentation
+```bash
+docker compose -f docker-compose.training.yml up
+# Jupyter Lab: http://localhost:8888
+# Akses notebook: work/training.ipynb
+```
+
+### Full Stack Development
+```bash
+# Terminal 1: Backend
+docker compose up
+
+# Terminal 2: Frontend
+docker compose -f docker-compose.frontend.yml up
+
+# Terminal 3: Training (opsional)
+docker compose -f docker-compose.training.yml up
+```
+
+---
+
+**Setelah semua services running, aplikasi siap digunakan! 🚀**

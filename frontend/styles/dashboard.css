@@ -39,11 +39,11 @@
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
-  color: var(--text-primary);
+  color: #0A0A0A; /* Dark text untuk light background */
 }
 
 .page-subtitle {
-  color: var(--white-muted);
+  color: #6B7280; /* Gray text untuk light background */
   font-size: var(--font-size-base);
 }
 

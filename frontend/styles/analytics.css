@@ -12,12 +12,12 @@
 
 .breadcrumb {
   font-size: var(--font-size-xs);
-  color: #D1D5DB !important;
+  color: #6B7280 !important;
   margin-bottom: var(--space-sm);
 }
 
 .breadcrumb a {
-  color: #D1D5DB !important;
+  color: #6B7280 !important;
   transition: color 0.3s ease;
 }
 
@@ -31,11 +31,11 @@
   margin-bottom: var(--space-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
-  color: #FFFFFF !important;
+  color: #0A0A0A !important;
 }
 
 .page-subtitle {
-  color: #D1D5DB !important;
+  color: #6B7280 !important;
   font-size: var(--font-size-base);
 }
 
