@@ -99,7 +99,7 @@
                 <div class="stat-mini-label">Failure Rate</div>
               </div>
               <div class="stat-mini">
-                <div class="stat-mini-val">0.97</div>
+                <div class="stat-mini-val">0.98</div>
                 <div class="stat-mini-label">ROC-AUC</div>
               </div>
             </div>
@@ -276,6 +276,7 @@
                     </label>
                     <input type="number" id="rotational_speed" class="form-input" value="1500" step="1" min="1">
                     <div class="form-hint">Rentang normal: 1168–2886 rpm</div>
+                    <div class="form-warning" id="warning_rotational_speed">⚠ Nilai di luar rentang normal</div>
                   </div>
 
                   <div class="form-group">
@@ -284,6 +285,7 @@
                     </label>
                     <input type="number" id="torque" class="form-input" value="40.0" step="0.1" min="0">
                     <div class="form-hint">Rentang normal: 3.8–76.6 Nm</div>
+                    <div class="form-warning" id="warning_torque">⚠ Nilai di luar rentang normal</div>
                   </div>
                 </div>
 
@@ -338,6 +340,7 @@
                   <div class="prob-track">
                     <div class="prob-fill" id="probFill2"></div>
                   </div>
+                  <div id="confidenceBadge"></div>
                 </div>
 
                 <div class="recommendation-label">Rekomendasi Tindakan</div>
@@ -412,6 +415,17 @@
 
           <!-- Filters Bar -->
           <div class="filters-bar">
+            <div class="date-range-group">
+              <div class="date-input-wrapper">
+                <label class="filter-label">Tanggal Mulai</label>
+                <input type="date" id="filterDateStart" class="form-input">
+              </div>
+              <div class="date-input-wrapper">
+                <label class="filter-label">Tanggal Akhir</label>
+                <input type="date" id="filterDateEnd" class="form-input">
+              </div>
+            </div>
+
             <div class="filter-group">
               <label class="filter-label">Status</label>
               <select id="filterStatus" class="form-select">
@@ -440,6 +454,7 @@
                 <option value="50" selected>50</option>
                 <option value="100">100</option>
                 <option value="500">500</option>
+                <option value="all">Semua</option>
               </select>
             </div>
 
@@ -449,6 +464,10 @@
 
             <button class="btn btn-secondary" id="btnResetFilter">
               Reset
+            </button>
+
+            <button class="btn btn-primary" id="btnExportCSV">
+              📥 Export to CSV
             </button>
           </div>
 
@@ -461,6 +480,7 @@
             <div id="tableBody">
               <div class="loading-state">Memuat data...</div>
             </div>
+            <div id="paginationContainer"></div>
           </div>
         </div>
       </div>
@@ -560,19 +580,19 @@
             </div>
             <div class="model-grid">
               <div class="model-card">
-                <div class="model-metric">0.97</div>
+                <div class="model-metric">0.98</div>
                 <div class="model-label">ROC-AUC</div>
               </div>
               <div class="model-card">
-                <div class="model-metric">0.78</div>
+                <div class="model-metric">0.74</div>
                 <div class="model-label">Recall</div>
               </div>
               <div class="model-card">
-                <div class="model-metric">0.61</div>
+                <div class="model-metric">0.73</div>
                 <div class="model-label">F1-Score</div>
               </div>
               <div class="model-card">
-                <div class="model-metric">0.68</div>
+                <div class="model-metric">0.71</div>
                 <div class="model-label">F1-Macro Multi</div>
               </div>
             </div>

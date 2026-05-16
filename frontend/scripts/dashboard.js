@@ -30,6 +30,34 @@ document.getElementById('btnReset').addEventListener('click', () => {
   });
   document.getElementById('resultCard').classList.remove('visible');
   document.getElementById('errorMsg').style.display = 'none';
+
+  // Clear warnings
+  document.getElementById('warning_rotational_speed').classList.remove('show');
+  document.getElementById('warning_torque').classList.remove('show');
+});
+
+// Input validation for Rotational Speed
+document.getElementById('rotational_speed').addEventListener('input', (e) => {
+  const value = parseFloat(e.target.value);
+  const warning = document.getElementById('warning_rotational_speed');
+
+  if (value < 1168 || value > 2886) {
+    warning.classList.add('show');
+  } else {
+    warning.classList.remove('show');
+  }
+});
+
+// Input validation for Torque
+document.getElementById('torque').addEventListener('input', (e) => {
+  const value = parseFloat(e.target.value);
+  const warning = document.getElementById('warning_torque');
+
+  if (value < 3.8 || value > 76.6) {
+    warning.classList.add('show');
+  } else {
+    warning.classList.remove('show');
+  }
 });
 
 // Predict function
@@ -117,7 +145,7 @@ function renderResult(data) {
   document.getElementById('resultProbText').textContent = prob.toFixed(4);
 
   // Probability bar
-  const fill = document.getElementById('probFill');
+  const fill = document.getElementById('probFill2');
   const color = getProbabilityColor(prob);
   fill.style.backgroundColor = color;
   document.getElementById('probPct').textContent = probPct + '%';
@@ -126,6 +154,34 @@ function renderResult(data) {
   setTimeout(() => {
     fill.style.width = probPct + '%';
   }, 100);
+
+  // Confidence Badge
+  const confidenceBadge = document.getElementById('confidenceBadge');
+  let badgeClass = '';
+  let badgeText = '';
+
+  console.log('=== CONFIDENCE BADGE DEBUG ===');
+  console.log('Probability:', prob);
+  console.log('Probability Percent:', probPct);
+
+  if (probPct <= 30) {
+    badgeClass = 'confidence-low';
+    badgeText = 'Risiko Rendah';
+  } else if (probPct <= 60) {
+    badgeClass = 'confidence-medium';
+    badgeText = 'Risiko Sedang';
+  } else {
+    badgeClass = 'confidence-high';
+    badgeText = 'Risiko Tinggi';
+  }
+
+  console.log('Badge Class:', badgeClass);
+  console.log('Badge Text:', badgeText);
+
+  confidenceBadge.innerHTML = `<span class="confidence-badge ${badgeClass}">${badgeText}</span>`;
+
+  console.log('Badge HTML:', confidenceBadge.innerHTML);
+  console.log('Badge Element:', confidenceBadge);
 
   // Recommendation
   document.getElementById('resultRecommendation').textContent = data.recommendation;

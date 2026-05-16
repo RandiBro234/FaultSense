@@ -111,6 +111,40 @@ if (btnReset) {
   btnReset.addEventListener('click', resetForm);
 }
 
+// Input validation for Rotational Speed
+const rotationalSpeedInput = document.getElementById('rotational_speed');
+if (rotationalSpeedInput) {
+  rotationalSpeedInput.addEventListener('input', (e) => {
+    const value = parseFloat(e.target.value);
+    const warning = document.getElementById('warning_rotational_speed');
+
+    if (warning) {
+      if (value < 1168 || value > 2886) {
+        warning.classList.add('show');
+      } else {
+        warning.classList.remove('show');
+      }
+    }
+  });
+}
+
+// Input validation for Torque
+const torqueInput = document.getElementById('torque');
+if (torqueInput) {
+  torqueInput.addEventListener('input', (e) => {
+    const value = parseFloat(e.target.value);
+    const warning = document.getElementById('warning_torque');
+
+    if (warning) {
+      if (value < 3.8 || value > 76.6) {
+        warning.classList.add('show');
+      } else {
+        warning.classList.remove('show');
+      }
+    }
+  });
+}
+
 async function handlePredict() {
   const btn = document.getElementById('btnPredict');
   const spinner = document.getElementById('spinner');
@@ -188,6 +222,33 @@ function renderPredictionResult(data) {
   probFill.style.width = probPct + '%';
   probFill.style.backgroundColor = getProbabilityColor(data.probability_failure);
 
+  // Confidence Badge
+  const confidenceBadge = document.getElementById('confidenceBadge');
+  let badgeClass = '';
+  let badgeText = '';
+
+  console.log('=== CONFIDENCE BADGE DEBUG ===');
+  console.log('Probability:', data.probability_failure);
+  console.log('Probability Percent:', probPct);
+
+  if (probPct <= 30) {
+    badgeClass = 'confidence-low';
+    badgeText = 'Risiko Rendah';
+  } else if (probPct <= 60) {
+    badgeClass = 'confidence-medium';
+    badgeText = 'Risiko Sedang';
+  } else {
+    badgeClass = 'confidence-high';
+    badgeText = 'Risiko Tinggi';
+  }
+
+  console.log('Badge Class:', badgeClass);
+  console.log('Badge Text:', badgeText);
+
+  confidenceBadge.innerHTML = `<span class="confidence-badge ${badgeClass}">${badgeText}</span>`;
+
+  console.log('Badge HTML:', confidenceBadge.innerHTML);
+
   const recommendation = data.failure_type
     ? FAILURE_RECOMMENDATIONS[data.failure_type]
     : 'Tidak ada tindakan khusus diperlukan. Lanjutkan operasi normal dan pantau kondisi mesin secara berkala.';
@@ -208,14 +269,26 @@ function resetForm() {
   document.getElementById('tool_wear').value = '50';
   document.getElementById('errorMsg').textContent = '';
   document.getElementById('resultCard').classList.remove('visible');
+
+  // Clear warnings
+  const warningRotational = document.getElementById('warning_rotational_speed');
+  const warningTorque = document.getElementById('warning_torque');
+
+  if (warningRotational) warningRotational.classList.remove('show');
+  if (warningTorque) warningTorque.classList.remove('show');
 }
 
 // ==========================================
 // HISTORY SECTION
 // ==========================================
 
+let historyData = []; // Store history data for export
+let currentPage = 1;
+let itemsPerPage = 10;
+
 const btnFilter = document.getElementById('btnFilter');
 const btnResetFilter = document.getElementById('btnResetFilter');
+const btnExportCSV = document.getElementById('btnExportCSV');
 
 if (btnFilter) {
   btnFilter.addEventListener('click', loadHistory);
@@ -225,22 +298,37 @@ if (btnResetFilter) {
   btnResetFilter.addEventListener('click', resetFilters);
 }
 
+if (btnExportCSV) {
+  btnExportCSV.addEventListener('click', exportToCSV);
+}
+
 async function loadHistory() {
   const status = document.getElementById('filterStatus').value;
   const failureType = document.getElementById('filterType').value;
   const limit = document.getElementById('filterLimit').value;
 
-  let url = `${API_BASE_URL}/history?limit=${limit}`;
+  // Build URL - if "all" is selected, use max limit (500)
+  let url = `${API_BASE_URL}/history?limit=${limit === 'all' ? '500' : limit}`;
   if (status) url += `&status=${status}`;
   if (failureType) url += `&failure_type=${failureType}`;
+
+  console.log('Loading history with limit:', limit === 'all' ? 'ALL (500)' : limit);
 
   document.getElementById('tableBody').innerHTML = '<div class="loading-state">Memuat data...</div>';
 
   try {
     const response = await fetch(url);
     const data = await response.json();
+
+    // Store data for export
+    historyData = data;
+
+    // Reset to page 1
+    currentPage = 1;
+
     renderHistoryTable(data);
   } catch (error) {
+    console.error('Error loading history:', error);
     document.getElementById('tableBody').innerHTML = `
       <div class="empty-state">
         <p class="empty-state-text">Tidak dapat terhubung ke API.</p>
@@ -269,7 +357,20 @@ function renderHistoryTable(data) {
     return;
   }
 
-  const rows = data.map(d => {
+  // Pagination calculation
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
+  console.log('=== PAGINATION DEBUG ===');
+  console.log('Total data:', data.length);
+  console.log('Items per page:', itemsPerPage);
+  console.log('Total pages:', totalPages);
+  console.log('Current page:', currentPage);
+  console.log('Showing records:', startIndex, 'to', endIndex);
+
+  const rows = paginatedData.map(d => {
     const prob = d.probability_failure;
     const probPct = Math.round(prob * 100);
     const color = getProbabilityColor(prob);
@@ -278,6 +379,21 @@ function renderHistoryTable(data) {
     const ftTag = d.failure_type
       ? `<span class="badge badge-neutral">${d.failure_type}</span>`
       : '<span style="color:var(--text-muted)">—</span>';
+
+    // Confidence Badge
+    let confidenceBadgeClass = '';
+    let confidenceBadgeText = '';
+
+    if (probPct <= 30) {
+      confidenceBadgeClass = 'confidence-low';
+      confidenceBadgeText = 'Rendah';
+    } else if (probPct <= 60) {
+      confidenceBadgeClass = 'confidence-medium';
+      confidenceBadgeText = 'Sedang';
+    } else {
+      confidenceBadgeClass = 'confidence-high';
+      confidenceBadgeText = 'Tinggi';
+    }
 
     return `
       <tr>
@@ -292,6 +408,7 @@ function renderHistoryTable(data) {
             <span class="font-mono text-secondary">${prob.toFixed(4)}</span>
           </div>
         </td>
+        <td><span class="confidence-badge ${confidenceBadgeClass}" style="font-size:11px;padding:4px 8px;">${confidenceBadgeText}</span></td>
         <td class="font-mono">${d.type}</td>
         <td class="font-mono">${d.air_temperature?.toFixed(1)}</td>
         <td class="font-mono">${d.torque?.toFixed(1)}</td>
@@ -309,6 +426,7 @@ function renderHistoryTable(data) {
           <th>Status</th>
           <th>Failure Type</th>
           <th>Probabilitas</th>
+          <th>Risiko</th>
           <th>Type</th>
           <th>Air Temp</th>
           <th>Torque</th>
@@ -319,13 +437,183 @@ function renderHistoryTable(data) {
       <tbody>${rows}</tbody>
     </table>
   `;
+
+  // Render pagination
+  renderPagination(totalPages);
+}
+
+// Render pagination controls
+function renderPagination(totalPages) {
+  const paginationContainer = document.getElementById('paginationContainer');
+
+  if (!paginationContainer) {
+    console.error('paginationContainer not found!');
+    return;
+  }
+
+  // Clear previous pagination
+  paginationContainer.innerHTML = '';
+
+  console.log('renderPagination called with totalPages:', totalPages);
+
+  if (totalPages <= 1) {
+    console.log('Pagination skipped: totalPages <= 1');
+    return;
+  }
+
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+  if (endPage - startPage < maxVisiblePages - 1) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+
+  // Generate page numbers
+  let pageNumbers = '';
+
+  // First page
+  if (startPage > 1) {
+    pageNumbers += `<button class="pagination-btn page-number" data-page="1">1</button>`;
+    if (startPage > 2) {
+      pageNumbers += `<span class="pagination-ellipsis">...</span>`;
+    }
+  }
+
+  // Visible pages
+  for (let i = startPage; i <= endPage; i++) {
+    const activeClass = i === currentPage ? 'active' : '';
+    pageNumbers += `<button class="pagination-btn page-number ${activeClass}" data-page="${i}">${i}</button>`;
+  }
+
+  // Last page
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      pageNumbers += `<span class="pagination-ellipsis">...</span>`;
+    }
+    pageNumbers += `<button class="pagination-btn page-number" data-page="${totalPages}">${totalPages}</button>`;
+  }
+
+  const paginationHTML = `
+    <div class="pagination-controls">
+      <button class="pagination-btn" id="btnPrevPage" ${currentPage === 1 ? 'disabled' : ''}>
+        ← Prev
+      </button>
+      ${pageNumbers}
+      <button class="pagination-btn" id="btnNextPage" ${currentPage === totalPages ? 'disabled' : ''}>
+        Next →
+      </button>
+    </div>
+  `;
+
+  console.log('Inserting pagination HTML');
+  paginationContainer.innerHTML = paginationHTML;
+  console.log('Pagination HTML inserted');
+
+  // Add event listeners
+  const btnPrev = document.getElementById('btnPrevPage');
+  const btnNext = document.getElementById('btnNextPage');
+
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderHistoryTable(historyData);
+      }
+    });
+  }
+
+  if (btnNext) {
+    btnNext.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderHistoryTable(historyData);
+      }
+    });
+  }
+
+  // Page number buttons
+  const pageButtons = document.querySelectorAll('.pagination-btn.page-number');
+  console.log('Page buttons found:', pageButtons.length);
+  pageButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const page = parseInt(btn.getAttribute('data-page'));
+      if (page !== currentPage) {
+        currentPage = page;
+        renderHistoryTable(historyData);
+      }
+    });
+  });
 }
 
 function resetFilters() {
   document.getElementById('filterStatus').value = '';
   document.getElementById('filterType').value = '';
   document.getElementById('filterLimit').value = '50';
+  document.getElementById('filterDateStart').value = '';
+  document.getElementById('filterDateEnd').value = '';
   loadHistory();
+}
+
+// Export to CSV function
+function exportToCSV() {
+  if (!historyData || historyData.length === 0) {
+    alert('Tidak ada data untuk diekspor.');
+    return;
+  }
+
+  console.log('Exporting', historyData.length, 'records to CSV');
+
+  // CSV Headers
+  const headers = [
+    'ID',
+    'Status',
+    'Failure Type',
+    'Probability Failure',
+    'Type',
+    'Air Temperature',
+    'Process Temperature',
+    'Rotational Speed',
+    'Torque',
+    'Tool Wear',
+    'Checked At'
+  ];
+
+  // CSV Rows
+  const rows = historyData.map(d => [
+    d.id,
+    d.status,
+    d.failure_type || '',
+    d.probability_failure.toFixed(4),
+    d.type,
+    d.air_temperature?.toFixed(1) || '',
+    d.process_temperature?.toFixed(1) || '',
+    d.rotational_speed || '',
+    d.torque?.toFixed(1) || '',
+    d.tool_wear || '',
+    d.checked_at
+  ]);
+
+  // Combine headers and rows
+  const csvContent = [
+    headers.join(','),
+    ...rows.map(row => row.join(','))
+  ].join('\n');
+
+  // Create Blob and download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', `faultsense_history_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  console.log('CSV export completed');
 }
 
 // ==========================================
