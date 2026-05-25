@@ -162,16 +162,16 @@
 }
 
 .chart-card {
-  background-color: #1F2937;
-  border: 1px solid #374151;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-green);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .chart-card.full {
   grid-column: 1 / -1;
-  background-color: #111827;
+  background-color: #FFFFFF;
 }
 
 .chart-header {
@@ -181,13 +181,13 @@
 .chart-title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: #FFFFFF !important;
+  color: #111827 !important;
   margin-bottom: var(--space-xs);
 }
 
 .chart-subtitle {
   font-size: var(--font-size-sm);
-  color: #D1D5DB !important;
+  color: #6B7280 !important;
 }
 
 .chart-container {
@@ -206,18 +206,18 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #D1D5DB !important;
+  color: #374151 !important;
   font-weight: var(--font-weight-semibold);
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid #374151;
-  background-color: #1F2937;
+  border-bottom: 1px solid #E5E7EB;
+  background-color: #F9FAFB;
 }
 
 .breakdown-table td {
   padding: var(--space-sm) var(--space-md);
   font-size: var(--font-size-sm);
-  border-bottom: 1px solid #374151;
-  color: #E5E7EB !important;
+  border-bottom: 1px solid #E5E7EB;
+  color: #111827 !important;
 }
 
 .breakdown-table tr:last-child td {
@@ -225,7 +225,7 @@
 }
 
 .breakdown-table tr:hover td {
-  background-color: #1F2937;
+  background-color: #F9FAFB;
 }
 
 .ft-bar-wrap {
@@ -237,7 +237,7 @@
 .ft-bar-track {
   flex: 1;
   height: 6px;
-  background-color: #374151;
+  background-color: #E5E7EB;
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -278,6 +278,63 @@
   letter-spacing: 0.05em;
   color: #374151 !important;
   font-weight: var(--font-weight-semibold);
+}
+
+/* Force dark text on light backgrounds */
+.chart-card,
+.chart-card *,
+.stat-card,
+.stat-card *,
+.model-card,
+.model-card *,
+.last-checked,
+.last-checked * {
+  color: #111827;
+}
+
+/* Override for specific colored elements */
+.stat-value.c-success {
+  color: #16A34A !important;
+}
+
+.stat-value.c-danger {
+  color: #DC2626 !important;
+}
+
+.stat-value.c-warning {
+  color: #16A34A !important;
+}
+
+.model-metric {
+  color: #16A34A !important;
+}
+
+.stat-label,
+.model-label,
+.chart-subtitle,
+.last-checked-label,
+.stat-sub {
+  color: #6B7280 !important;
+}
+
+.chart-title,
+.stat-value,
+.last-checked-value {
+  color: #111827 !important;
+}
+
+/* Breakdown table text colors */
+.breakdown-table th {
+  color: #374151 !important;
+}
+
+.breakdown-table td {
+  color: #111827 !important;
+}
+
+.breakdown-table td strong {
+  color: #111827 !important;
+  font-weight: 600;
 }
 
 /* Responsive */

@@ -1,6 +1,5 @@
-/* ==========================================
-   NAVBAR STYLES - Black-Green Theme
-   ==========================================
+/* 
+  bikin buat Navbarnya
 */
 
 .navbar {
@@ -26,7 +25,7 @@
   justify-content: space-between;
 }
 
-/* ===== LOGO ===== */
+/* Logo */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -47,7 +46,7 @@
   width: 36px;
   height: 36px;
   object-fit: contain;
-  display: none; /* Hidden - logo removed */
+  display: none; /* gakjadi pake logo, soalnya randi gmw katanya */
 }
 
 .navbar-logo-text {
@@ -69,7 +68,7 @@
   display: inline-block;
 }
 
-/* ===== MENU ===== */
+/* Menu */
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -104,7 +103,7 @@
   box-shadow: inset 0 -2px 0 0 var(--primary-green);
 }
 
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 768px) {
   .navbar-container {
     padding: 0 var(--space-md);

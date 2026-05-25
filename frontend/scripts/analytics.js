@@ -52,10 +52,10 @@ function renderAnalytics(data) {
   document.getElementById('lastChecked').textContent = formatDateTime(data.latest_checked_at);
 
   // Stats
-  document.getElementById('statTotalAnalytics').textContent = total;
-  document.getElementById('statNormalAnalytics').textContent = normal;
-  document.getElementById('statFailureAnalytics').textContent = failure;
-  document.getElementById('statRateAnalytics').textContent = data.failure_rate + '%';
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statNormal').textContent = normal;
+  document.getElementById('statFailure').textContent = failure;
+  document.getElementById('statRate').textContent = data.failure_rate + '%';
 
   document.getElementById('statNormalPct').textContent =
     total > 0 ? ((normal / total) * 100).toFixed(1) + '% dari total' : '—';
@@ -84,9 +84,16 @@ function renderAnalytics(data) {
         legend: {
           position: 'bottom',
           labels: {
-            font: { family: 'Poppins', size: 12 },
+            font: {
+              family: 'Poppins',
+              size: 13,
+              weight: 'bold'
+            },
             padding: 16,
-            color: '#D1D5DB'
+            color: '#333333',
+            usePointStyle: false,
+            boxWidth: 15,
+            boxHeight: 15
           }
         }
       }
@@ -117,24 +124,50 @@ function renderAnalytics(data) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#111827',
+          titleColor: '#FFFFFF',
+          bodyColor: '#FFFFFF',
+          padding: 12,
+          cornerRadius: 8
+        }
       },
       scales: {
         y: {
           beginAtZero: true,
           ticks: {
             stepSize: 1,
-            font: { family: 'Poppins', size: 11 },
-            color: '#D1D5DB'
+            font: {
+              family: 'Poppins',
+              size: 12,
+              weight: 'bold'
+            },
+            color: '#333333'
           },
-          grid: { color: '#374151' }
+          grid: {
+            color: '#e5e7eb',
+            lineWidth: 1
+          },
+          border: {
+            color: '#d1d5db'
+          }
         },
         x: {
           ticks: {
-            font: { family: 'Poppins', size: 11 },
-            color: '#D1D5DB'
+            font: {
+              family: 'Poppins',
+              size: 12,
+              weight: 'bold'
+            },
+            color: '#333333'
           },
-          grid: { display: false }
+          grid: {
+            display: false
+          },
+          border: {
+            color: '#d1d5db'
+          }
         }
       }
     }

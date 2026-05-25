@@ -1,12 +1,10 @@
-/* ==========================================
-   SECTION SPACING & LAYOUT
-   ==========================================
+/* Section
 
-   File ini berisi styling untuk section spacing
+   File ini buat styling untuk section spacing
    dan layout khusus untuk single-page application
 */
 
-/* ===== SECTION SPACING ===== */
+/* Section spasing */
 section {
   padding: 48px 0;
   scroll-margin-top: calc(var(--navbar-height) + 20px);
@@ -17,7 +15,7 @@ section.section-analytics {
   padding: 48px 0;
 }
 
-/* Smooth scroll container */
+/* Scroll */
 html {
   scroll-snap-type: y proximity;
 }
@@ -28,7 +26,7 @@ html {
   padding: 0 var(--space-lg);
 }
 
-/* ===== SECTION HEADERS ===== */
+/* Headder nya */
 .section-label {
   font-size: var(--font-size-xs);
   font-family: var(--font-display);
@@ -56,7 +54,7 @@ html {
   line-height: var(--line-height-relaxed);
 }
 
-/* Dark section overrides */
+/* Section untuk dark provides nya */
 .section-analytics .section-title {
   color: #FFFFFF !important;
 }
@@ -65,7 +63,7 @@ html {
   color: #D1D5DB !important;
 }
 
-/* ===== SECTION BACKGROUNDS ===== */
+/* Section background */
 .section-predict {
   background-color: #F9FAFB;
   border-top: 1px solid var(--border-light);
@@ -81,7 +79,7 @@ html {
   color: #FFFFFF;
 }
 
-/* ===== STATS GRID ===== */
+/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -148,7 +146,7 @@ html {
   margin-top: var(--space-xs);
 }
 
-/* ===== FILTERS BAR ===== */
+/* filter buat bar nya */
 .filters-bar {
   display: flex;
   flex-wrap: wrap;
@@ -178,7 +176,7 @@ html {
   letter-spacing: var(--letter-spacing-wide);
 }
 
-/* ===== TABLE HEADER ===== */
+/* Tabel buat headernya */
 .table-header {
   display: flex;
   justify-content: space-between;
@@ -201,7 +199,7 @@ html {
   color: #6B7280;
 }
 
-/* ===== PAGE ACTIONS ===== */
+/* Tabel buat actions */
 .page-actions {
   display: flex;
   gap: var(--space-md);
@@ -233,7 +231,7 @@ html {
   color: var(--text-primary-dark) !important;
 }
 
-/* ===== CHARTS GRID ===== */
+/* Charts Grid */
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -287,7 +285,7 @@ html {
   position: relative;
 }
 
-/* ===== MODEL GRID ===== */
+/* Model grid */
 .model-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -326,7 +324,7 @@ html {
   letter-spacing: var(--letter-spacing-wide);
 }
 
-/* ===== BREAKDOWN TABLE ===== */
+/* tabel breakdown */
 .breakdown-table {
   width: 100%;
   border-collapse: collapse;
@@ -378,7 +376,7 @@ html {
   transition: width 0.8s ease;
 }
 
-/* ===== LOADING STATE ===== */
+/* Section buat loading state */
 .loading-state {
   padding: var(--space-3xl);
   text-align: center;
@@ -387,7 +385,7 @@ html {
   color: #9CA3AF !important;
 }
 
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 768px) {
   section {
     padding: var(--space-2xl) 0;
