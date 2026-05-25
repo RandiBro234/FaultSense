@@ -411,6 +411,10 @@
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-md);
   border: 1px solid #8DFF2F;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  line-height: 1.4;
 }
 
 .pipeline-metrics {
@@ -783,6 +787,90 @@
   line-height: var(--line-height-relaxed);
 }
 
+/* ===================================
+   Fitur Unggulan Section
+   =================================== */
+
+.features-unggulan-section {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-3xl);
+  border-top: 1px solid #E5E7EB;
+}
+
+.features-unggulan-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.features-unggulan-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: #0A0A0A;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.5px;
+}
+
+.features-unggulan-subtitle {
+  font-size: var(--font-size-lg);
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: var(--line-height-relaxed);
+}
+
+.features-unggulan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.feature-unggulan-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-xl);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.feature-unggulan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: #10b981;
+}
+
+.feature-unggulan-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #d1fae5;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-lg);
+  color: #10b981;
+}
+
+.feature-unggulan-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.feature-unggulan-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: #0A0A0A;
+  margin-bottom: var(--space-sm);
+  line-height: 1.4;
+}
+
+.feature-unggulan-description {
+  font-size: var(--font-size-base);
+  color: #6B7280;
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
 /* Section buat tema gelap */
 .info-section-dark {
   padding: var(--space-3xl) 0;
@@ -978,6 +1066,19 @@
   .features-grid-dark {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .features-unggulan-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .features-unggulan-title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .features-unggulan-subtitle {
+    font-size: var(--font-size-base);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1134,5 +1235,44 @@
 
   .info-section-dark .section-title {
     font-size: var(--font-size-3xl);
+  }
+
+  .features-unggulan-section {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-2xl);
+  }
+
+  .features-unggulan-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .features-unggulan-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .features-unggulan-subtitle {
+    font-size: var(--font-size-sm);
+  }
+
+  .features-unggulan-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .feature-unggulan-card {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .feature-unggulan-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .feature-unggulan-card-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .feature-unggulan-description {
+    font-size: var(--font-size-sm);
   }
 }
