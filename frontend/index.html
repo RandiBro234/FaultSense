@@ -107,116 +107,201 @@
         </div>
       </section>
 
-      <!-- Informative Section -->
+      <!-- AI Pipeline Section -->
       <section class="info-section">
         <div class="info-container">
           <div class="section-header">
-            <h2 class="section-title">Keunggulan & Cara Kerja FaultSense</h2>
-            <p class="section-subtitle">Sistem cerdas end-to-end untuk monitoring dan prediksi kondisi mesin industri Anda</p>
-          </div>
-
-          <!-- Cara Kerja Prediksi -->
-          <div class="subsection-header">
-            <h3 class="subsection-title">Bagaimana Sistem Bekerja</h3>
-            <p class="subsection-desc">Proses cascade classification 2-tahap untuk akurasi maksimal</p>
-          </div>
-
-          <div class="process-grid">
-            <div class="process-card">
-              <div class="process-number">1</div>
-              <h3 class="process-title">Input Data Sensor</h3>
-              <p class="process-desc">Masukkan 5 parameter sensor: Air Temperature, Process Temperature, Rotational Speed, Torque, dan Tool Wear untuk analisis kondisi mesin</p>
-            </div>
-
-            <div class="process-card">
-              <div class="process-number">2</div>
-              <h3 class="process-title">Binary Classification</h3>
-              <p class="process-desc">Model pertama mendeteksi apakah mesin dalam kondisi Normal atau Failure dengan akurasi tinggi</p>
-            </div>
-
-            <div class="process-card">
-              <div class="process-number">3</div>
-              <h3 class="process-title">Failure Type Classification</h3>
-              <p class="process-desc">Jika terdeteksi Failure, model kedua mengidentifikasi jenis spesifik: TWF, HDF, PWF, OSF, atau RNF</p>
-            </div>
-
-            <div class="process-card">
-              <div class="process-number">4</div>
-              <h3 class="process-title">Rekomendasi Tindakan</h3>
-              <p class="process-desc">Sistem memberikan rekomendasi maintenance spesifik berdasarkan jenis failure untuk mencegah downtime</p>
+            <h2 class="section-title">AI Prediction Pipeline</h2>
+            <p class="section-subtitle">FaultSense menggunakan arsitektur cascade machine learning berbasis Random Forest untuk mendeteksi dan mengklasifikasikan kegagalan mesin secara real-time.</p>
+            <div class="tech-badges">
+              <span class="tech-badge">FastAPI</span>
+              <span class="tech-badge">Random Forest</span>
+              <span class="tech-badge">PostgreSQL</span>
+              <span class="tech-badge">Real-time Analytics</span>
             </div>
           </div>
 
-          <!-- Fitur Unggulan -->
-          <div class="subsection-header">
-            <h3 class="subsection-title">Fitur Unggulan</h3>
-            <p class="subsection-desc">Solusi komprehensif untuk predictive maintenance industri modern</p>
+          <!-- Horizontal Pipeline -->
+          <div class="pipeline-wrapper">
+            <div class="pipeline-container">
+              <!-- Step 1 -->
+              <div class="pipeline-step">
+                <div class="pipeline-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">User Sensor Input</h3>
+                <p class="pipeline-desc">User memasukkan parameter sensor mesin seperti Air Temperature, Process Temperature, Rotational Speed, Torque, dan Tool Wear.</p>
+              </div>
+
+              <div class="pipeline-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="pipeline-step">
+                <div class="pipeline-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3"></path>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">Data Preprocessing</h3>
+                <p class="pipeline-desc">Data diproses menggunakan feature engineering, scaling, encoding, dan validasi agar sesuai dengan format model machine learning.</p>
+                <div class="pipeline-highlights">
+                  <span class="highlight-item">Feature Engineering</span>
+                  <span class="highlight-item">StandardScaler</span>
+                  <span class="highlight-item">One Hot Encoding</span>
+                </div>
+              </div>
+
+              <div class="pipeline-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="pipeline-step pipeline-highlight">
+                <div class="pipeline-icon glow">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">Binary Random Forest Model</h3>
+                <p class="pipeline-desc">Model Random Forest tahap pertama menentukan apakah kondisi mesin termasuk Normal atau Failure.</p>
+                <div class="pipeline-metrics">
+                  <div class="metric-item">
+                    <span class="metric-value">98.65%</span>
+                    <span class="metric-label">Accuracy</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-value">98.42%</span>
+                    <span class="metric-label">ROC-AUC</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pipeline-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="pipeline-step pipeline-highlight">
+                <div class="pipeline-icon glow">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">Multiclass Random Forest Model</h3>
+                <p class="pipeline-desc">Jika terdeteksi Failure, model kedua mengidentifikasi jenis kegagalan spesifik.</p>
+                <div class="failure-badges">
+                  <span class="failure-badge">TWF</span>
+                  <span class="failure-badge">HDF</span>
+                  <span class="failure-badge">PWF</span>
+                  <span class="failure-badge">OSF</span>
+                  <span class="failure-badge">RNF</span>
+                </div>
+              </div>
+
+              <div class="pipeline-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="pipeline-step">
+                <div class="pipeline-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">Recommendation Engine</h3>
+                <p class="pipeline-desc">Sistem menghasilkan rekomendasi maintenance berdasarkan jenis failure untuk mencegah downtime mesin.</p>
+              </div>
+
+              <div class="pipeline-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <!-- Step 6 -->
+              <div class="pipeline-step">
+                <div class="pipeline-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                  </svg>
+                </div>
+                <h3 class="pipeline-title">Database Logging & Analytics</h3>
+                <p class="pipeline-desc">Hasil prediksi disimpan ke PostgreSQL dan divisualisasikan pada dashboard analytics secara real-time.</p>
+                <div class="pipeline-highlights">
+                  <span class="highlight-item">Prediction History</span>
+                  <span class="highlight-item">Analytics Dashboard</span>
+                  <span class="highlight-item">Export CSV</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="features-grid">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2v20M2 12h20"></path>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-              </div>
-              <h3 class="feature-title">Tracking Performa</h3>
-              <p class="feature-desc">Monitor kondisi mesin dari waktu ke waktu untuk mendeteksi degradasi performa secara dini</p>
+          <!-- Statistics Section -->
+          <div class="pipeline-stats-section">
+            <div class="stats-header">
+              <h3 class="stats-title">Performa Model Machine Learning</h3>
+              <p class="stats-subtitle">Hasil evaluasi model Random Forest pada dataset AI4I 2020 Predictive Maintenance</p>
             </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"></path>
-                </svg>
+            <div class="pipeline-stats">
+              <div class="stat-item">
+                <div class="stat-number" data-target="98.65">0</div>
+                <div class="stat-label">Accuracy</div>
+                <div class="stat-desc">Model berhasil memprediksi kondisi mesin dengan benar pada 98.65% kasus</div>
               </div>
-              <h3 class="feature-title">Identifikasi Pola Failure</h3>
-              <p class="feature-desc">Temukan pola kegagalan berulang melalui history log untuk mencegah downtime di masa depan</p>
+              <div class="stat-item">
+                <div class="stat-number" data-target="82.35">0</div>
+                <div class="stat-label">Recall Failure</div>
+                <div class="stat-desc">Sistem mendeteksi 82.35% dari seluruh kegagalan mesin yang terjadi</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" data-target="80.58">0</div>
+                <div class="stat-label">F1-Score</div>
+                <div class="stat-desc">Keseimbangan optimal antara precision dan recall dalam deteksi failure</div>
+              </div>
             </div>
+          </div>
 
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-              </div>
-              <h3 class="feature-title">Audit Trail Lengkap</h3>
-              <p class="feature-desc">Dokumentasi lengkap setiap prediksi untuk compliance dan analisis root cause yang mendalam</p>
+          <!-- Info Panel -->
+          <div class="cascade-info">
+            <div class="info-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
             </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="3" y1="9" x2="21" y2="9"></line>
-                  <line x1="9" y1="21" x2="9" y2="9"></line>
-                </svg>
-              </div>
-              <h3 class="feature-title">Visualisasi Komprehensif</h3>
-              <p class="feature-desc">Pahami distribusi failure dan tren performa mesin melalui chart interaktif yang mudah dipahami</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                </svg>
-              </div>
-              <h3 class="feature-title">Metrik Performa Model</h3>
-              <p class="feature-desc">Transparansi penuh terhadap akurasi model AI dengan metrik ROC-AUC 0.97, Recall, dan F1-Score</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="12" y1="1" x2="12" y2="23"></line>
-                  <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
-                </svg>
-              </div>
-              <h3 class="feature-title">Breakdown Detail</h3>
-              <p class="feature-desc">Analisis mendalam per jenis failure untuk strategi maintenance yang lebih targeted dan efisien</p>
+            <div class="info-content">
+              <h4 class="info-title">Mengapa Cascade Classification?</h4>
+              <p class="info-text">
+                FaultSense menggunakan <strong>Cascade Classification Architecture</strong>, yaitu pendekatan dua tahap machine learning yang memisahkan deteksi failure (binary) dengan klasifikasi jenis failure (multiclass). Pendekatan ini meningkatkan akurasi karena setiap model difokuskan pada satu tugas spesifik, sehingga menghasilkan prediksi yang lebih presisi dan dapat diandalkan untuk maintenance preventif.
+              </p>
             </div>
           </div>
         </div>
