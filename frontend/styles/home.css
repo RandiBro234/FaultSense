@@ -17,6 +17,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -77,10 +78,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.6;
     transform: scale(1.1);
@@ -290,13 +294,15 @@
 .pipeline-container {
   display: flex;
   align-items: stretch;
-  gap: var(--space-md);
-  padding: var(--space-2xl);
+  gap: 12px;
+  padding: 24px;
   background-color: #FFFFFF;
   border-radius: var(--radius-xl);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   flex-wrap: nowrap;
-  justify-content: space-between;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 
 /* Custom scrollbar untuk pipeline */
@@ -320,8 +326,11 @@
 
 .pipeline-step {
   flex: 1;
-  min-width: 0;
-  padding: var(--space-xl);
+  /* Prevent steps from being crushed below a readable width */
+  min-width: 158px;
+  max-width: 220px;
+  scroll-snap-align: start;
+  padding: 24px 18px 20px;
   background-color: #FFFFFF;
   border: 2px solid #E5E7EB;
   border-radius: var(--radius-xl);
@@ -329,7 +338,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
 }
 
@@ -342,11 +351,11 @@
 .pipeline-step.pipeline-highlight {
   background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);
   border: 2px solid #8DFF2F;
-  box-shadow: 0 4px 16px rgba(141, 255, 47, 0.2);
+  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.22);
 }
 
 .pipeline-step.pipeline-highlight:hover {
-  box-shadow: 0 8px 28px rgba(141, 255, 47, 0.3);
+  box-shadow: 0 12px 36px rgba(34, 197, 94, 0.28);
 }
 
 .pipeline-icon {
@@ -355,7 +364,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #F0FDF4;
+  background-color: rgba(34, 197, 94, 0.08);
   border: 2px solid #8DFF2F;
   border-radius: var(--radius-lg);
   color: #22C55E;
@@ -371,9 +380,12 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 4px 16px rgba(141, 255, 47, 0.4);
   }
+
   50% {
     box-shadow: 0 6px 24px rgba(141, 255, 47, 0.6);
   }
@@ -396,25 +408,51 @@
 }
 
 .pipeline-highlights {
+  /* Use flex-wrap so badges flow to next row rather than overflow */
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   width: 100%;
-  margin-top: var(--space-sm);
+  margin-top: 14px;
 }
 
 .highlight-item {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: #22C55E;
-  background-color: #F0FDF4;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  border: 1px solid #8DFF2F;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  /* Allow natural width but cap at parent width */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* No nowrap — let long labels wrap to next line inside badge if needed */
+  white-space: normal;
+  word-break: keep-all;
   text-align: center;
-  line-height: 1.4;
+  padding: 5px 11px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  line-height: 1.3;
+  /* Dark slate-green text — readable on light background */
+  color: #1B5E34;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1.5px solid rgba(34, 197, 94, 0.32);
+  border-radius: 7px;
+  box-shadow:
+    0 1px 2px rgba(34, 197, 94, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  cursor: default;
+}
+
+.highlight-item:hover {
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(34, 197, 94, 0.6);
+  box-shadow: 0 3px 10px rgba(34, 197, 94, 0.14);
+  transform: translateY(-1px);
 }
 
 .pipeline-metrics {
@@ -429,11 +467,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-sm) var(--space-md);
-  background-color: #FFFFFF;
-  border: 1px solid #8DFF2F;
-  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  background: rgba(34, 197, 94, 0.05);
+  border: 1.5px solid rgba(34, 197, 94, 0.25);
+  border-radius: 10px;
   flex: 1;
+  transition: all 0.2s ease;
+}
+
+.metric-item:hover {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22C55E;
 }
 
 .metric-value {
@@ -464,21 +508,30 @@
   background-color: #22C55E;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-md);
-  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+  letter-spacing: 0.01em;
 }
 
 .pipeline-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8DFF2F;
+  width: 38px;
+  height: 38px;
+  background-color: #FFFFFF;
+  border: 1.5px solid rgba(34, 197, 94, 0.25);
+  border-radius: 50%;
+  color: #22C55E;
   flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(34, 197, 94, 0.08);
+  position: relative;
+  /* Adjust margins if needed in responsive */
 }
 
 .pipeline-arrow svg {
-  width: 32px;
-  height: 32px;
-  stroke-width: 3;
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
 }
 
 /* Pipeline Statistics */
@@ -530,17 +583,19 @@
 }
 
 .stat-number {
-  font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-extrabold);
+  font-size: clamp(48px, 5vw, 68px);
+  font-weight: 600;
   color: #22C55E;
   line-height: 1;
+  letter-spacing: -0.04em;
   margin-bottom: var(--space-sm);
 }
 
 .stat-number::after {
   content: '%';
-  font-size: var(--font-size-3xl);
+  font-size: clamp(28px, 2.5vw, 38px);
   margin-left: 2px;
+  font-weight: 500;
 }
 
 .stat-label {
@@ -836,19 +891,20 @@
 .feature-unggulan-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  border-color: #10b981;
+  border-color: #22C55E;
 }
 
 .feature-unggulan-icon {
   width: 48px;
   height: 48px;
-  background-color: #d1fae5;
+  background-color: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: var(--space-lg);
-  color: #10b981;
+  color: #22C55E;
 }
 
 .feature-unggulan-icon svg {

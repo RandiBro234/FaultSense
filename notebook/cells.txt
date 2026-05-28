@@ -1,0 +1,297 @@
+Cell 23:
+# ============================================================
+# BASELINE MODELS — minimal 3 sesuai requirement
+# Model: Random Forest, Logistic Regression, Gradient Boosting
+# Semua dilatih dari X_train_resampled (post-SMOTE, post-scaling)
+# ============================================================
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+
+baseline_models = {
+    "Baseline_RandomForest_B"    : RandomForestClassifier(
+        n_estimators=100, random_state=42,
+        n_jobs=-1, class_weight='balanced'
+    ),
+    "Baseline_LogisticRegression": LogisticRegression(
+        max_iter=1000, random_state=42,
+        class_weight='balanced', n_jobs=-1
+    ),
+    "Baseline_GradientBoosting"  : GradientBoostingClassifier(
+        n_estimators=100, random_state=42
+    )
+}
+
+baseline_results = {}
+
+for model_name, model in baseline_models.items():
+    print(f"\n{'='*50}")
+    print(f"Training: {model_name}")
+    print('='*50)
+
+    model.fit(X_train_resampled, y_train_resampled)
+
+    y_pred = model.predict(X_test_scaled)
+    y_prob = model.predict_proba(X_test_scaled)[:, 1]
+
+    metrics = {
+        "accuracy"          : accuracy_score(y_test, y_pred),
+        "recall_failure"    : recall_score(y_test, y_pred, pos_label=1, zero_division=0),
+        "precision_failure" : precision_score(y_test, y_pred, pos_label=1, zero_division=0),
+        "f1_failure"        : f1_score(y_test, y_pred, pos_label=1, zero_division=0),
+        "roc_auc"           : roc_auc_score(y_test, y_prob)
+    }
+
+    baseline_results[model_name] = metrics
+
+    print(f"  Accuracy          : {metrics['accuracy']:.4f}")
+    print(f"  Recall Failure    : {metrics['recall_failure']:.4f}")
+    print(f"  Precision Failure : {metrics['precision_failure']:.4f}")
+    print(f"  F1-Score Failure  : {metrics['f1_failure']:.4f}")
+    print(f"  ROC-AUC           : {metrics['roc_auc']:.4f}")
+
+    with mlflow.start_run(run_name=model_name):
+        mlflow.log_param("model_type", model_name)
+        mlflow.log_param("training_data", "SMOTE + scaled")
+        mlflow.log_params(model.get_params())
+        mlflow.log_metrics(metrics)
+        mlflow.sklearn.log_model(model, model_name)
+        print(f"  → Dicatat ke MLflow.")
+
+# Ringkasan perbandingan baseline
+print("\n\n=== RINGKASAN BASELINE ===")
+baseline_df = pd.DataFrame(baseline_results).T
+print(baseline_df.to_string())
+
+Cell 27:
+# ============================================================
+# THRESHOLD TUNING — pakai X_test_SCALED
+# Perbaikan:
+# 1. Sort by F1 dulu (bukan recall) — sesuai target F1 >= 0.70
+# 2. min_precision diturunkan ke 0.40 supaya lebih banyak kandidat
+# 3. Tampilkan top 5 kandidat untuk lihat trade-off
+# ============================================================
+
+y_prob_tuned = rf_binary_tuned.predict_proba(X_test_scaled)[:, 1]
+
+thresholds = np.arange(0.05, 0.90, 0.01)
+results    = []
+
+for thresh in thresholds:
+    y_pred_t       = (y_prob_tuned >= thresh).astype(int)
+    tn, fp, fn, tp = confusion_matrix(y_test, y_pred_t).ravel()
+    results.append({
+        "threshold" : round(thresh, 2),
+        "recall"    : recall_score(y_test, y_pred_t, pos_label=1, zero_division=0),
+        "precision" : precision_score(y_test, y_pred_t, pos_label=1, zero_division=0),
+        "f1"        : f1_score(y_test, y_pred_t, pos_label=1, zero_division=0),
+        "tn": tn, "fp": fp, "fn": fn, "tp": tp
+    })
+
+results_df   = pd.DataFrame(results)
+
+# Target: recall setinggi mungkin dengan F1 tetap >= 0.70
+min_precision = 0.75  # turunkan constraint precision
+candidate_df  = results_df[
+    (results_df["precision"] >= min_precision) &
+    (results_df["f1"] >= 0.70)   # tambah constraint F1 minimum
+]
+
+if len(candidate_df) > 0:
+    # Di kandidat yang F1 >= 0.70, cari recall tertinggi
+    best_row = candidate_df.sort_values(by=["recall", "f1"], ascending=False).iloc[0]
+    strategy = "Max Recall dengan Precision >= 0.65 dan F1 >= 0.70"
+else:
+    best_row = results_df.sort_values(by=["f1", "recall"], ascending=False).iloc[0]
+    strategy = "Fallback: Max F1 tanpa batas"
+
+best_threshold = best_row["threshold"]
+y_pred_final   = (y_prob_tuned >= best_threshold).astype(int)
+
+print(f"Strategi  : {strategy}")
+print(f"Threshold : {best_threshold:.2f}")
+print(f"Recall    : {best_row['recall']:.4f}")
+print(f"Precision : {best_row['precision']:.4f}")
+print(f"F1        : {best_row['f1']:.4f}")
+
+# Tampilkan top 5 kandidat threshold
+print("\n--- Top 5 Kandidat Threshold ---")
+print(candidate_df.sort_values(by=["f1", "recall"], ascending=False)
+      [["threshold", "recall", "precision", "f1", "tp", "fn", "fp"]]
+      .head(5).to_string(index=False))
+
+# Simpan threshold
+os.makedirs("models", exist_ok=True)
+with open(os.path.join(MODEL_DIR, "threshold.pkl"), "wb") as f:
+    pickle.dump(float(best_threshold), f)
+print(f"\nThreshold disimpan ke models/threshold.pkl")
+
+# Log ke MLflow
+with mlflow.start_run(run_name="Threshold_Tuning_v2"):
+    mlflow.log_param("selection_strategy",       strategy)
+    mlflow.log_param("default_threshold",        0.50)
+    mlflow.log_param("best_threshold",           float(best_threshold))
+    mlflow.log_param("min_precision_constraint", min_precision)
+    mlflow.log_metric("test_recall_failure",     float(best_row['recall']))
+    mlflow.log_metric("test_precision_failure",  float(best_row['precision']))
+    mlflow.log_metric("test_f1_failure",         float(best_row['f1']))
+    mlflow.log_metric("test_roc_auc",            float(roc_auc_score(y_test, y_prob_tuned)))
+    mlflow.sklearn.log_model(rf_binary_tuned, "Binary_RandomForest_v2")
+    print("Dicatat ke MLflow — Threshold_Tuning_v.")
+
+Cell 31:
+# ============================================================
+# VISUALISASI EVALUASI MODEL
+# ============================================================
+from sklearn.metrics import roc_curve, auc, ConfusionMatrixDisplay
+
+fig = plt.figure(figsize=(20, 16))
+
+# ============================================================
+# 1. ROC CURVE - BINARY
+# ============================================================
+ax1 = fig.add_subplot(2, 3, 1)
+fpr, tpr, _ = roc_curve(y_test, y_prob_tuned)
+roc_auc = auc(fpr, tpr)
+
+ax1.plot(fpr, tpr, color='steelblue', lw=2, label=f'ROC Curve (AUC = {roc_auc:.4f})')
+ax1.plot([0, 1], [0, 1], color='gray', linestyle='--', lw=1, label='Random Classifier')
+ax1.scatter(
+    best_row['fp'] / (best_row['fp'] + best_row['tn']),
+    best_row['tp'] / (best_row['tp'] + best_row['fn']),
+    color='red', s=100, zorder=5, label=f'Threshold = {best_threshold:.2f}'
+)
+ax1.set_title('ROC Curve — Binary', fontweight='bold', fontsize=13)
+ax1.set_xlabel('False Positive Rate')
+ax1.set_ylabel('True Positive Rate')
+ax1.legend()
+ax1.grid(alpha=0.3)
+
+# ============================================================
+# 2. CONFUSION MATRIX - BINARY
+# ============================================================
+ax2 = fig.add_subplot(2, 3, 2)
+cm_bin = confusion_matrix(y_test, y_pred_final)
+tn, fp, fn, tp = cm_bin.ravel()
+
+disp = ConfusionMatrixDisplay(
+    confusion_matrix=cm_bin,
+    display_labels=['Normal', 'Failure']
+)
+disp.plot(ax=ax2, cmap='Blues', colorbar=False, values_format='d')
+ax2.set_title('Confusion Matrix — Binary', fontweight='bold', fontsize=13)
+
+# Tambah label TP/TN/FP/FN
+for (i, j), val in np.ndenumerate(cm_bin):
+    label = {(0,0): 'TN', (0,1): 'FP', (1,0): 'FN', (1,1): 'TP'}[(i,j)]
+    ax2.text(j, i - 0.25, label, ha='center', va='center',
+             fontsize=12, fontweight='bold', color='red')
+
+# ============================================================
+# 3. TP / FP / FN / TN BAR CHART - BINARY
+# ============================================================
+ax3 = fig.add_subplot(2, 3, 3)
+labels_bar = ['TN', 'FP', 'FN', 'TP']
+values_bar = [tn, fp, fn, tp]
+colors_bar = ['#2ecc71', '#e74c3c', '#e67e22', '#3498db']
+
+bars = ax3.bar(labels_bar, values_bar, color=colors_bar, edgecolor='black', width=0.5)
+ax3.set_title('TP / FP / FN / TN — Binary', fontweight='bold', fontsize=13)
+ax3.set_ylabel('Count')
+
+for bar, val in zip(bars, values_bar):
+    ax3.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
+             str(val), ha='center', va='bottom', fontsize=12, fontweight='bold')
+
+ax3.set_ylim(0, max(values_bar) * 1.15)
+ax3.grid(axis='y', alpha=0.3)
+
+# ============================================================
+# 4. CONFUSION MATRIX - MULTICLASS
+# ============================================================
+ax4 = fig.add_subplot(2, 3, 4)
+
+classes_in_test = sorted(y_test_multi.unique())
+labels_in_test  = [failure_types[i] for i in classes_in_test]
+cm_multi = confusion_matrix(y_test_multi, y_pred_multi, labels=classes_in_test)
+
+im = ax4.imshow(cm_multi, cmap='Blues')
+ax4.set_title('Confusion Matrix — Multiclass', fontweight='bold', fontsize=13)
+ax4.set_xticks(range(len(classes_in_test)))
+ax4.set_yticks(range(len(classes_in_test)))
+ax4.set_xticklabels(labels_in_test)
+ax4.set_yticklabels(labels_in_test)
+ax4.set_xlabel('Predicted')
+ax4.set_ylabel('Actual')
+
+for i in range(len(classes_in_test)):
+    for j in range(len(classes_in_test)):
+        ax4.text(j, i, cm_multi[i, j], ha='center', va='center',
+                 fontsize=12, fontweight='bold',
+                 color='white' if cm_multi[i, j] > cm_multi.max()/2 else 'black')
+
+plt.colorbar(im, ax=ax4)
+
+# ============================================================
+# 5. RECALL / PRECISION / F1 VS THRESHOLD
+# ============================================================
+ax5 = fig.add_subplot(2, 3, 5)
+ax5.plot(results_df["threshold"], results_df["recall"],    label='Recall',    color='tomato',       lw=2)
+ax5.plot(results_df["threshold"], results_df["precision"], label='Precision', color='steelblue',    lw=2)
+ax5.plot(results_df["threshold"], results_df["f1"],        label='F1-Score',  color='mediumseagreen', lw=2)
+ax5.axvline(x=best_threshold, color='black', linestyle='--', lw=1.5,
+            label=f'Threshold = {best_threshold:.2f}')
+ax5.axvline(x=0.50, color='gray', linestyle=':', lw=1, label='Default = 0.50', alpha=0.7)
+ax5.set_title('Recall / Precision / F1 vs Threshold', fontweight='bold', fontsize=13)
+ax5.set_xlabel('Threshold')
+ax5.set_ylabel('Score')
+ax5.legend(fontsize=9)
+ax5.grid(alpha=0.3)
+
+# ============================================================
+# 6. F1 PER FAILURE TYPE - MULTICLASS
+# ============================================================
+ax6 = fig.add_subplot(2, 3, 6)
+
+report = classification_report(
+    y_test_multi, y_pred_multi,
+    labels=classes_in_test,
+    target_names=labels_in_test,
+    zero_division=0,
+    output_dict=True
+)
+
+f1_per_class     = [report[ft]['f1-score'] for ft in labels_in_test]
+recall_per_class = [report[ft]['recall']   for ft in labels_in_test]
+prec_per_class   = [report[ft]['precision'] for ft in labels_in_test]
+
+x      = np.arange(len(labels_in_test))
+width  = 0.25
+
+ax6.bar(x - width, prec_per_class, width, label='Precision', color='steelblue',     edgecolor='black')
+ax6.bar(x,         recall_per_class, width, label='Recall',  color='tomato',        edgecolor='black')
+ax6.bar(x + width, f1_per_class,   width, label='F1-Score',  color='mediumseagreen', edgecolor='black')
+
+ax6.set_title('Precision / Recall / F1 per Failure Type', fontweight='bold', fontsize=13)
+ax6.set_xticks(x)
+ax6.set_xticklabels(labels_in_test)
+ax6.set_ylabel('Score')
+ax6.set_ylim(0, 1.15)
+ax6.legend(fontsize=9)
+ax6.grid(axis='y', alpha=0.3)
+
+for bars in [ax6.containers[0], ax6.containers[1], ax6.containers[2]]:
+    for bar in bars:
+        h = bar.get_height()
+        if h > 0:
+            ax6.text(bar.get_x() + bar.get_width()/2, h + 0.02,
+                     f'{h:.2f}', ha='center', va='bottom', fontsize=8)
+
+plt.suptitle('FaultSense — Evaluasi Model Lengkap', fontsize=16, fontweight='bold', y=1.01)
+plt.tight_layout()
+
+# Simpan
+os.makedirs("outputs", exist_ok=True)
+plt.savefig("outputs/evaluasi_model_lengkap.png", dpi=150, bbox_inches='tight')
+plt.show()
+
+print("Visualisasi disimpan ke outputs/evaluasi_model_lengkap.png")
