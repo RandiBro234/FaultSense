@@ -1,25 +1,24 @@
 services:
- 
   postgres:
     image: postgres:15
     container_name: faultsense_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB:       ${POSTGRES_DB:-faultsense_db}
-      POSTGRES_USER:     ${POSTGRES_USER:-faultsense_user}
+      POSTGRES_DB: ${POSTGRES_DB:-faultsense_db}
+      POSTGRES_USER: ${POSTGRES_USER:-faultsense_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-faultsense_pass}
     ports:
-      - "5433:5432"          # host:5433 → container:5432
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-faultsense_user} -d ${POSTGRES_DB:-faultsense_db}"]
       interval: 5s
-      timeout:  5s
-      retries:  5
+      timeout: 5s
+      retries: 5
     networks:
       - faultsense_net
- 
+
   api:
     build: .
     container_name: faultsense_api
@@ -34,17 +33,46 @@ services:
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status == 200 else 1)"]
       interval: 10s
-      timeout:   5s
-      retries:   5
+      timeout: 5s
+      retries: 5
       start_period: 15s
     networks:
       - faultsense_net
- 
-  # ──────────────────────────────────────────────────────────
-  # pgAdmin 4 — GUI untuk melihat & mengelola PostgreSQL
-  # Akses di browser: http://localhost:5050
-  # Login: admin@faultsense.com / admin123
-  # ──────────────────────────────────────────────────────────
+
+  frontend:
+    image: nginx:alpine
+    container_name: faultsense_frontend
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "3001:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    networks:
+      - faultsense_net
+
+  training:
+    image: jupyter/scipy-notebook:python-3.11
+    container_name: faultsense_training
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebook:/home/jovyan/work
+      - ./data:/home/jovyan/data
+      - ./models:/home/jovyan/models
+      - ./outputs:/home/jovyan/outputs
+      - ./requirements.txt:/home/jovyan/requirements.txt:ro
+      - ./requirements-dev.txt:/home/jovyan/requirements-dev.txt:ro
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+    command: bash -c "pip install --no-cache-dir -r /home/jovyan/requirements-dev.txt && start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+    networks:
+      - faultsense_net
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: faultsense_pgadmin
@@ -53,20 +81,20 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      PGADMIN_DEFAULT_EMAIL:    ${PGADMIN_EMAIL:-admin@faultsense.com}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@faultsense.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
-      PGADMIN_CONFIG_SERVER_MODE: "False"   # mode desktop, tidak butuh login berulang
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
-      - "5050:80"              # akses via http://localhost:5050
+      - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
       - faultsense_net
- 
+
 volumes:
   postgres_data:
-  pgadmin_data:       # ← tambahan untuk simpan konfigurasi pgAdmin
- 
+  pgadmin_data:
+
 networks:
   faultsense_net:
     driver: bridge
