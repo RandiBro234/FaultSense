@@ -388,8 +388,9 @@ Lihat `frontend/TESTING_CHECKLIST.md` untuk checklist testing lengkap.
 
 ## 👥 Contributors
 
-- **Randi** - Backend & ML Development
-- **[Your Name]** - Frontend Architecture & UI/UX
+- **Randi** - Backend API Development
+- **Nopal** - Backend & ML Development
+- **Ikhwan** - Frontend Architecture & UI/UX
 
 ---
 
