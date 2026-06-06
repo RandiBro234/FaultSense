@@ -185,10 +185,10 @@ uvicorn app.main:app --reload
 
 ### 4. Akses Aplikasi
 
-- **Landing Page**: http://localhost:8080/
-- **Dashboard Prediksi**: http://localhost:8080/pages/dashboard.html
-- **History**: http://localhost:8080/pages/history.html
-- **Analytics**: http://localhost:8080/pages/analytics.html
+- **Landing Page**: http://localhost:3001/
+- **Dashboard Prediksi**: http://localhost:3001/pages/dashboard.html
+- **History**: http://localhost:3001/pages/history.html
+- **Analytics**: http://localhost:3001/pages/analytics.html
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/health
 - **pgAdmin 4**: http://localhost:5050/browser
