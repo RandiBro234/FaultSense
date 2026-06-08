@@ -20,7 +20,7 @@ services:
       - faultsense_net
 
   api:
-    build: .
+    image: ikhwanngentupp/faultsense:latest
     container_name: faultsense_api
     restart: unless-stopped
     depends_on:
