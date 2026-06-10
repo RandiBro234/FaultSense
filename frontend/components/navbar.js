@@ -26,8 +26,15 @@ export function renderNavbar(activePage = 'home') {
           </span>
         </a>
 
+        <!-- Hamburger Toggle -->
+        <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
         <!-- Menu Links -->
-        <div class="navbar-menu">
+        <div class="navbar-menu" id="navbarMenu">
           <a href="javascript:void(0)" class="navbar-link ${activePage === 'home' ? 'active' : ''}" data-tab="home">
             Home
           </a>
@@ -47,6 +54,24 @@ export function renderNavbar(activePage = 'home') {
 
   // Insert navbar di awal body
   document.body.insertAdjacentHTML('afterbegin', navbarHTML);
+
+  // Toggle hamburger menu
+  const toggle = document.getElementById('navbarToggle');
+  const menu = document.getElementById('navbarMenu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
+
+    // Tutup menu kalau klik link
+    menu.querySelectorAll('.navbar-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+      });
+    });
+  }
 }
 
 /**
@@ -66,8 +91,15 @@ export function renderNavbarForPages(activePage) {
           </span>
         </a>
 
+        <!-- Hamburger Toggle -->
+        <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
         <!-- Menu Links -->
-        <div class="navbar-menu">
+        <div class="navbar-menu" id="navbarMenu">
           <a href="dashboard.html" class="navbar-link ${activePage === 'predict' ? 'active' : ''}">
             Predict
           </a>
@@ -87,4 +119,22 @@ export function renderNavbarForPages(activePage) {
 
   // Insert navbar di awal body
   document.body.insertAdjacentHTML('afterbegin', navbarHTML);
+
+  // Toggle hamburger menu
+  const toggle = document.getElementById('navbarToggle');
+  const menu = document.getElementById('navbarMenu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
+
+    // Tutup menu kalau klik link
+    menu.querySelectorAll('.navbar-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+      });
+    });
+  }
 }
