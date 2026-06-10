@@ -11,6 +11,8 @@
     { "src": "/scripts/(.*)",     "dest": "/frontend/scripts/$1" },
     { "src": "/components/(.*)",  "dest": "/frontend/components/$1" },
     { "src": "/pages/(.*)",       "dest": "/frontend/pages/$1" },
+    { "src": "/images/(.*)",      "dest": "/frontend/images/$1" },
+    { "src": "/refrensi/(.*)",    "dest": "/frontend/refrensi/$1" },
     { "src": "/",                 "dest": "/frontend/index.html" }
   ]
 }
