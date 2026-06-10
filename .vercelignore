@@ -1,0 +1,13 @@
+app/
+models/
+notebook/
+data/
+database/
+pgadmin/
+venv/
+*.pkl
+*.db
+requirements*.txt
+Dockerfile*
+docker-compose.yml
+.env
